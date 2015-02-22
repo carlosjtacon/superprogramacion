@@ -9,7 +9,7 @@
  * height h.
  * WARNING: 'world' must be allocated before the function call.
  */
-void init_world(int* world, int w, int h)
+void random_init_world(int* world, int w, int h)
 {
     srand(time(NULL));
     for (int i = 0; i < w*h; ++i)
@@ -28,7 +28,7 @@ void print_world(int* world, int w, int h)
 		{
 			int pos = i*w + j;
 			if (world[pos] == 0)
-				cout << 'O';
+				cout << ' ';
 			else
 				cout << 'X';
 		}
@@ -75,4 +75,70 @@ void generate(int* _old, int* _new, int w, int h, offset moves[])
 			}
 		}
 	}
+}
+
+/**
+ * The following is the implementation of several patterns in the game of 
+ * life, known for their characteristic behaviour
+ */
+
+/**
+ * A glider belongs to the kind of patterns known as 'spaceships', which travels
+ * the world
+ */
+void glider_init_world(int* world, int w, int h)
+{
+	world[0*w + 2] = 1;
+	world[1*w + 0] = 1;
+	world[1*w + 2] = 1;
+	world[2*w + 1] = 1;
+	world[2*w + 2] = 1;
+}
+
+/**
+ * The gosper glider gun is a pattern that periodically generates a glider.
+ */
+void gosper_glider_gun_init_world(int* world, int w, int h)
+{
+	world[5*w + 1] = 1;
+	world[6*w + 1] = 1;
+	world[5*w + 2] = 1;
+	world[6*w + 2] = 1;
+	world[6*w + 2] = 1;
+
+	world[5*w + 11] = 1;
+	world[6*w + 11] = 1;
+	world[7*w + 11] = 1;
+	world[4*w + 12] = 1;
+	world[8*w + 12] = 1;
+	world[3*w + 13] = 1;
+	world[9*w + 13] = 1;
+	world[3*w + 14] = 1;
+	world[9*w + 14] = 1;
+	world[6*w + 15] = 1;
+	world[4*w + 16] = 1;
+	world[8*w + 16] = 1;
+	world[5*w + 17] = 1;
+	world[6*w + 17] = 1;
+	world[7*w + 17] = 1;
+	world[6*w + 18] = 1;
+
+	world[3*w + 21] = 1;
+	world[4*w + 21] = 1;
+	world[5*w + 21] = 1;
+	world[3*w + 22] = 1;
+	world[4*w + 22] = 1;
+	world[5*w + 22] = 1;
+	world[2*w + 23] = 1;
+	world[6*w + 23] = 1;
+
+	world[1*w + 25] = 1;
+	world[2*w + 25] = 1;
+	world[6*w + 25] = 1;
+	world[7*w + 25] = 1;
+
+	world[3*w + 35] = 1;
+	world[4*w + 35] = 1;
+	world[3*w + 36] = 1;
+	world[4*w + 36] = 1;
 }

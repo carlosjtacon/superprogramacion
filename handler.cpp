@@ -28,9 +28,12 @@ using namespace std;
  	for (int i = 0; i < size; ++i)
  		_new[i] = 0;
 
- 	init_world(_old, width, height);
+ 	system("clear");
+ 	// random_init_world(_old, width, height);
+ 	// glider_init_world(_old, width, height);
+ 	gosper_glider_gun_init_world(_old, width, height);
  	print_world(_old, width, height);
- 	sleep(1);
+ 	usleep(50000);
  	system("clear");
 
  	struct offset moves[8];
@@ -47,11 +50,11 @@ using namespace std;
  	{
  		generate(_old, _new, width, height, moves);
  		print_world(_new, width, height);
- 		sleep(1);
+ 		usleep(50000);
  		system("clear");
  		generate(_new, _old, width, height, moves);
  		print_world(_old, width, height);
- 		sleep(1);
+ 		usleep(50000);
  		system("clear");
  	}
 
