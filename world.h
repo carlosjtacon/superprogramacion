@@ -1,10 +1,13 @@
 #ifndef WORLD
 #define WORLD
 
-int* world;
-int* old_world;
+#include <stdlib.h>
+#include <time.h>
+#include <iostream>
 
-void init_world()
+using namespace std;
 
+void init_world(int* world, int w, int h);
+void print_world(int* world, int w, int h);
 
 #endif
