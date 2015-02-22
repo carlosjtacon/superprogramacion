@@ -5,5 +5,6 @@ world.o: world.cpp world.h
 	g++ -c -Wall world.cpp -o world.o
 
 clean:
-	rm *.o
-	rm test
+	rm -f *.o
+	rm -f test
+	rm -f *.out

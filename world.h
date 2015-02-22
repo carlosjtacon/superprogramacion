@@ -20,6 +20,6 @@ moves[7].i =  1;	moves[7].j =  1;
 */
 void init_world(int* world, int w, int h);
 void print_world(int* world, int w, int h);
-void generate(int* _old, int* _new, int w, int h);
+void generate(int* _old, int* _new, int w, int h, offset moves[]);
 
 #endif

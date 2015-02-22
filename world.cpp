@@ -59,13 +59,20 @@ void generate(int* _old, int* _new, int w, int h, offset moves[])
 				if (_old[old_p]>0)
 					count++;
 			}
+			// cout << count;
 			//apply rules:
-			if (count > 3 || count < 2)
+			if (count > 3 || count < 2){
 				_new[pos]=0;
-			else if (count == 2)
+				// cout << "killing" << endl;
+			}
+			else if (count == 2){
 				_new[pos] = _old[pos];
-			else				//count == 3
+				// cout << "keeping" << endl;
+			}
+			else{				//count == 3
 				_new[pos]=1;
+				// cout << "reviving" << endl;
+			}
 		}
 	}
 }
