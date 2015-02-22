@@ -62,3 +62,7 @@
 *.out
 *.app
 test
+
+#Sublime Text
+*.sublime-project
+*.sublime-workspace
