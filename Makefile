@@ -1,3 +1,6 @@
+main: main.cpp
+	g++ main.cpp -o main
+
 handler: world.o handler.cpp
 	g++ world.o handler.cpp -o test
 
@@ -8,3 +11,4 @@ clean:
 	rm -f *.o
 	rm -f test
 	rm -f *.out
+	rm -f main
