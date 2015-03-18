@@ -66,3 +66,8 @@ test
 #Sublime Text
 *.sublime-project
 *.sublime-workspace
+testdevice
+
+.project
+
+.cproject
