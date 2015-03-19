@@ -63,7 +63,7 @@ int main(int argc, const char *argv[]) {
 	switch(argc) {
 		case 1:
 			// configuracion por defecto
-			life_cpu(WIDTH, HEIGHT, 1, false);
+			life_cpu(WIDTH, HEIGHT, 1, true);
 			break;
 
 		case 5:

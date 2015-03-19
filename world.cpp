@@ -21,7 +21,7 @@ void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 			for (int m = 0; m < 8; ++m)
 			{
 				// index of _old vector neigbour:
-				int old_p = ((i+moves[m].i)%w)*w + (j+moves[m].j)%h;
+				int old_p = mod((i+moves[m].i),h)*w + mod((j+moves[m].j),w);
 				if (_old[old_p]>0)
 					count++;
 			}
@@ -41,6 +41,14 @@ void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 			}
 		}
 	}
+}
+
+int mod(int a, int b)
+{
+	if (a < 0)
+		return b+a;
+	else
+		return a%b;
 }
 
 /**
