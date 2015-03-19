@@ -80,7 +80,7 @@ int main(int argc, const char *argv[]) {
 						break;
 					case 2:
 						// gpu
-						// code here
+						life_gpu(atoi(argv[1]), atoi(argv[2]), 0, false);
 						break;
 					case 3:
 						// gpu optimized
@@ -99,7 +99,7 @@ int main(int argc, const char *argv[]) {
 						break;
 					case 2:
 						// gpu
-						// code here
+						life_gpu(atoi(argv[1]), atoi(argv[2]), 0, true);
 						break;
 					case 3:
 						// gpu optimized
@@ -129,7 +129,7 @@ int main(int argc, const char *argv[]) {
 						break;
 					case 2:
 						// gpu
-						// code here
+						life_gpu(atoi(argv[1]), atoi(argv[2]), pattern, false);
 						break;
 					case 3:
 						// gpu optimized
@@ -148,7 +148,7 @@ int main(int argc, const char *argv[]) {
 						break;
 					case 2:
 						// gpu
-						// code here
+						life_gpu(atoi(argv[1]), atoi(argv[2]), pattern, true);
 						break;
 					case 3:
 						// gpu optimized
