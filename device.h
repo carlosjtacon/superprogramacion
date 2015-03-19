@@ -19,10 +19,10 @@
 
 using namespace std;
 
-__global__ void generate_gpu(int* _old, int* _new, int w, int h, offset moves[]);
-__global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[]);
-void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[]);
-void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[]);
+__global__ void generate_gpu(int* _old, int* _new, int w, int h);
+__global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h);
+void call_generate_gpu_optimized(int* _old, int* _new, int w, int h);
+void call_generate_gpu(int* _old, int* _new, int w, int h);
 __device__ int d_mod(int a, int b); 
 
 #endif

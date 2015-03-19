@@ -24,12 +24,15 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  		_new[i] = 0;
 
  	//se inicia con un patrón especifico o aleatorio
- 	if (pattern == 1) {
+ 	if (pattern == 1 && width >= 40 && height >= 40) {
  		gosper_glider_gun_init_world(_old, width, height);
- 	} else if (pattern == 2) {
+ 	} else if (pattern == 2 && width > 10 && height > 10) {
 		glider_init_world(_old, width, height);
- 	} else {
+ 	} else if (pattern == 0) {
  		random_init_world(_old, width, height);
+ 	} else {
+ 		printf("Tamaño incorrecto para el patrón seleccionado.\n");
+ 		return;
  	}
  	
  	//empieza la iteración en cpu
@@ -46,10 +49,10 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  				generate_cpu(_old, _new, width, height, moves);
  				break;
  			case 1:
- 				generate_gpu(_old, _new, width, height, moves);
+ 				generate_gpu(_old, _new, width, height);
  				break;
  			case 2:
- 				generate_gpu_optimized(_old, _new, width, height, moves);
+ 				generate_gpu_optimized(_old, _new, width, height);
  				break;
  		}
  		print_world(_new, width, height);
@@ -61,10 +64,10 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  				generate_cpu(_new, _old, width, height, moves);
  				break;
  			case 1:
- 				generate_gpu(_new, _old, width, height, moves);
+ 				generate_gpu(_new, _old, width, height);
  				break;
  			case 2:
- 				generate_gpu_optimized(_new, _old, width, height, moves);
+ 				generate_gpu_optimized(_new, _old, width, height);
  				break;
  		}
  		print_world(_old, width, height);

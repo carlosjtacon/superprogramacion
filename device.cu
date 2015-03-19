@@ -8,28 +8,28 @@
 * kernel no optimizado
 **/
 __global__ 
-void generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
+void generate_gpu(int* _old, int* _new, int w, int h)
  {
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
     int j = threadIdx.x + blockIdx.x * blockDim.x;
 
     int pos = i * w + j;
 
-    struct offset moves2[8];
-    moves2[0].i = -1;    moves2[0].j = -1;
-    moves2[1].i = -1;    moves2[1].j =  0;
-    moves2[2].i = -1;    moves2[2].j =  1;
-    moves2[3].i =  0;    moves2[3].j = -1;
-    moves2[4].i =  0;    moves2[4].j =  1;
-    moves2[5].i =  1;    moves2[5].j = -1;
-    moves2[6].i =  1;    moves2[6].j =  0;
-    moves2[7].i =  1;    moves2[7].j =  1;
+    struct offset moves[8];
+    moves[0].i = -1;    moves[0].j = -1;
+    moves[1].i = -1;    moves[1].j =  0;
+    moves[2].i = -1;    moves[2].j =  1;
+    moves[3].i =  0;    moves[3].j = -1;
+    moves[4].i =  0;    moves[4].j =  1;
+    moves[5].i =  1;    moves[5].j = -1;
+    moves[6].i =  1;    moves[6].j =  0;
+    moves[7].i =  1;    moves[7].j =  1;
 
  	int count = 0;
  	for (int m = 0; m < 8; ++m)
  	{
 		// index of _old vector neigbour:
- 		int old_p = ((i+moves2[m].i)%w)*w + (j+moves2[m].j)%h;
+ 		int old_p = ((i+moves[m].i)%w)*w + (j+moves[m].j)%h;
  		if (_old[old_p]>0)
  			count++;
  	}
@@ -46,7 +46,7 @@ void generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 /**
 * kernel optimizado
 **/
-__global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[])
+__global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
  {
  	//coordenadas del hilo actual en _old o _new
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
@@ -108,7 +108,7 @@ __global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h, offse
 /**
 * wrapper para el kernel no optimizado
 **/
-void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
+void call_generate_gpu(int* _old, int* _new, int w, int h)
 {
 	size_t size = w*h*sizeof(int);
     int* d_old;
@@ -117,11 +117,9 @@ void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 	cudaMalloc((void **)&d_new,size);
     cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
     cudaMemcpy(d_new,_new,size,cudaMemcpyHostToDevice);
-	/*nota mental: puede que pete porque no estoy reservando memoria para moves
-	pero al pasarse como valor, no se si hace falta*/
 	dim3 gridSize(8,8);
 	dim3 blockSize(8,8);
-	generate_gpu <<<gridSize, blockSize>>> (d_old, d_new, w, h, moves);
+	generate_gpu <<<gridSize, blockSize>>> (d_old, d_new, w, h);
 	cudaMemcpy(_old, d_old, size, cudaMemcpyDeviceToHost);
 	cudaMemcpy(_new, d_new, size, cudaMemcpyDeviceToHost);
 	cudaFree((void **)&d_old);
@@ -130,7 +128,7 @@ void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 /**
 * wrapper para el kernel optimizado
 **/
-void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[])
+void call_generate_gpu_optimized(int* _old, int* _new, int w, int h)
 {
 	size_t size = w*h*sizeof(int);
     int* d_old;
@@ -150,7 +148,7 @@ void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset move
     cout << "gridy=" << gridy <<endl;
 	dim3 gridSize(gridx, gridy);
 	dim3 blockSize(TILE_W,TILE_H);
-	generate_gpu_optimized <<<gridSize, blockSize>>> (d_old, d_new, w, h, moves);
+	generate_gpu_optimized <<<gridSize, blockSize>>> (d_old, d_new, w, h);
 	cudaMemcpy(_old, d_old, size, cudaMemcpyDeviceToHost);
 	cudaMemcpy(_new, d_new, size, cudaMemcpyDeviceToHost);
 	cudaFree(d_old);
