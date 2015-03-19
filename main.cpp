@@ -1,4 +1,4 @@
-#include "world.h"
+#include "handler.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,6 +7,8 @@
 using namespace std;
 
 const char *HELP = "USAGE\n    ./golife (Run with the default configuration)\n    ./golife [Device Mode] [Running Mode] [Custom Pattern] [--help]\n\nDESCRIPTION\nDevice Mode:\n    -cpu\t\tProgram runs on CPU\n    -gpu\t\tProgram runs on GPU\n    -gpu-optimized\t Program runs on GPU Shared Memory\n\nRunning Mode:\n    -a\t\t\t Auto\n    -m [w][h]\t\tManual [Width] [Height]\n\nPattern (Optional):\n    -gun\t\tGosper Glider Gun\n";
+const int WIDTH = 64;
+const int HEIGHT = 64;
 
 int checkHostDevice(const char *argv[]) {
 	//comprobamos que la entrada sea correcta y devolvemos un entero según el modo dispositivo
@@ -58,7 +60,7 @@ int main(int argc, const char *argv[]) {
 	switch(argc) {
 		case 1:
 			printf("Default Configuration\n");
-			// code here
+			life_cpu(WIDTH, HEIGHT, true);
 			break;
 		case 3:
 			printf("gpu1/gpu2/cpu + a\n");
@@ -69,7 +71,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						printf("-cpu\n");
-						// code here
+						life_cpu(WIDTH, HEIGHT, false);
 						break;
 					case 2:
 						printf("-gpu\n");
@@ -98,7 +100,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						printf("-cpu\n");
-						// code here
+						life_cpu(WIDTH, HEIGHT, true);
 						break;
 					case 2:
 						printf("-gpu\n");
@@ -127,7 +129,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						printf("-cpu\n");
-						// code here
+						life_cpu(atoi(argv[3]), atoi(argv[4]), false);
 						break;
 					case 2:
 						printf("-gpu\n");
@@ -158,7 +160,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						printf("-cpu\n");
-						// code here
+						life_cpu(atoi(argv[3]), atoi(argv[4]), true);
 						break;
 					case 2:
 						printf("-gpu\n");
