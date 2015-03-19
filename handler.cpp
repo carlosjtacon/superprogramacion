@@ -25,9 +25,9 @@ void life(int width, int height, int pattern,  bool manual, int device) {
 
  	//se inicia con un patrón especifico o aleatorio
  	if (pattern == 1 && width >= 40 && height >= 40) {
- 		gosper_glider_gun_init_world(_old, width, height);
+ 		gosper_glider_gun_init_world(_old, width);
  	} else if (pattern == 2 && width > 10 && height > 10) {
-		glider_init_world(_old, width, height);
+		glider_init_world(_old, width);
  	} else if (pattern == 0) {
  		random_init_world(_old, width, height);
  	} else {

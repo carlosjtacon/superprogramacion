@@ -92,7 +92,7 @@ void random_init_world(int* world, int w, int h)
  * Un glider es un tipo de patron conocido como 'spaceship', que viaja por
  * el mundo
  */
-void glider_init_world(int* world, int w, int h)
+void glider_init_world(int* world, int w)
 {
 	world[0*w + 2] = 1;
 	world[1*w + 0] = 1;
@@ -104,7 +104,7 @@ void glider_init_world(int* world, int w, int h)
 /**
  * El gosper glider gun es un patron que genera periodicamente un glider.
  */
-void gosper_glider_gun_init_world(int* world, int w, int h)
+void gosper_glider_gun_init_world(int* world, int w)
 {
 	world[5*w + 1] = 1;
 	world[6*w + 1] = 1;
