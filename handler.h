@@ -9,6 +9,6 @@
 
 using namespace std;
 
-void life_cpu(int width, int height, int pattern);
+void life_cpu(int width, int height, int pattern, bool manual);
 
 #endif

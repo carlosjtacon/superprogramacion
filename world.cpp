@@ -1,14 +1,13 @@
 #include "world.h"
 
 /**
- * this file contains all functions handy for handling the 2d world
+ * Funciones de apoyo para trabajar con el mundo en 2D
  */
 
 /**
- *GENERATE traverses the world calculating new generetions based on the simple
- *rules:
- *A dead cell surrounded by exactly 3 alive cells is revived.
- *An alive cell surronded by 2 or 3 alive cells gets to live, otherwise dies.
+ * GENERATE CPU recorre el mundo calculando las nuevas generaciones con las normas:
+ * Una celula muerta rodeada de 3 vivas se revive.
+ * Una celda viva rodeada de 2 o 3 vivas sobrevive, sino muere.
  */
 void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 {
@@ -45,8 +44,8 @@ void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 }
 
 /**
- * PRINT_WORLD traverses the array printing the content. If cell empty prints
- * 'O', if populated prints 'X'. w means width and h means height
+ * PRINT_WORLD recorre el array imprimiendo el contenido. Si la celda esta vacía imprime
+ * 'O', si tiene contenido 'X'. w es width y h es height
  */
 void print_world(int* world, int w, int h)
 {
@@ -65,14 +64,14 @@ void print_world(int* world, int w, int h)
 }
 
 /**
- * The following is the implementation of several patterns in the game of 
- * life, known for their characteristic behaviour
+ * A partir de ahora son implementaciones de diferentes patrones de game of
+ * life, conocidos por su comportamiento
  */
 
 /**
  * INIT_WORLD pobla un array representando una matriz 2d, con w width y
  * height h.
- * WARNING: 'world' must be allocated before the function call.
+ * WARNING: 'world' tiene que estar allocado antes de la llamada.
  */
 void random_init_world(int* world, int w, int h)
 {
