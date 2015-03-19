@@ -1,5 +1,5 @@
 main: main.cpp
-	g++ main.cpp -o main
+	g++ main.cpp -o golife
 
 handler: world.o handler.cpp
 	g++ world.o handler.cpp -o test
@@ -12,3 +12,4 @@ clean:
 	rm -f test
 	rm -f *.out
 	rm -f main
+	rm -f golife
