@@ -11,9 +11,9 @@
  */
 void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 {
-	for (int i = 0; i < w; ++i)
+	for (int i = 0; i < h; ++i)
 	{
-		for (int j = 0; j < h; ++j)
+		for (int j = 0; j < w; ++j)
 		{
 			//get nº of neighbours:
 			int count = 0;
@@ -57,15 +57,15 @@ int mod(int a, int b)
  */
 void print_world(int* world, int w, int h)
 {
-	for (int i = 0; i < w; ++i)
+	for (int i = 0; i < h; ++i)
 	{
-		for (int j = 0; j < h; ++j)
+		for (int j = 0; j < w; ++j)
 		{
 			int pos = i*w + j;
 			if (world[pos] == 0)
-				cout << ' ';
+				cout << "0 ";
 			else
-				cout << 'X';
+				cout << ". ";
 		}
 		cout << endl;
 	}

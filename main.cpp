@@ -8,8 +8,8 @@ using namespace std;
 
 //string de ayuda para el uso del programa
 const char *HELP = "USAGE\n    ./golife (Run with the default configuration)\n    ./golife [Width][Height][Device Mode][Running Mode][Custom Pattern][--help]\n\nDESCRIPTION\nDevice Mode:\n    -cpu\t\tProgram runs on CPU\n    -gpu\t\tProgram runs on GPU Global Memory\n    -gpu-optimized\tProgram runs on GPU Shared Memory\n\nRunning Mode:\n    -a\t\t\tAuto\n    -m\t\t\tManual (Press return each interaction)\n\nPattern (Optional):\n    -gun\t\tGosper Glider Gun\n    -glider\t\tGosper Glider\n\n";
-const int WIDTH = 64;
-const int HEIGHT = 64;
+const int WIDTH = 40;
+const int HEIGHT = 20;
 
 int checkHostDevice(const char *argv[]) {
 	//comprobamos que la entrada sea correcta y devolvemos un entero según el modo dispositivo
@@ -63,7 +63,7 @@ int main(int argc, const char *argv[]) {
 	switch(argc) {
 		case 1:
 			// configuracion por defecto
-			life_cpu(WIDTH, HEIGHT, 1, true);
+			life_cpu(WIDTH, HEIGHT, 1, false);
 			break;
 
 		case 5:
