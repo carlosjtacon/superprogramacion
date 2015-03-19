@@ -104,7 +104,7 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
 	else{				//count == 3
 		_new[pos]=1;
 	}
-	 _new[pos] = sub_world[si-1][sj-1];
+	 // _new[pos] = sub_world[si-1][sj-1];
 	// _new[pos] = threadIdx.x;
 }
 

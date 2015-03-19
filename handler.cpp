@@ -21,7 +21,10 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  	int * _old = (int*) malloc(size);
  	int * _new = (int*) malloc(size);
  	for (int i = 0; i < size; ++i)
+ 	{
+ 		_old[i] = 0;
  		_new[i] = 0;
+ 	}
 
  	//se inicia con un patrón especifico o aleatorio
  	if (pattern == 1 && width >= 40 && height >= 40) {
