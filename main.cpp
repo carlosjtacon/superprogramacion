@@ -6,6 +6,7 @@
 #include <unistd.h>
 using namespace std;
 
+//string de ayuda para el uso del programa
 const char *HELP = "USAGE\n    ./golife (Run with the default configuration)\n    ./golife [Device Mode] [Running Mode] [Custom Pattern] [--help]\n\nDESCRIPTION\nDevice Mode:\n    -cpu\t\tProgram runs on CPU\n    -gpu\t\tProgram runs on GPU\n    -gpu-optimized\t Program runs on GPU Shared Memory\n\nRunning Mode:\n    -a\t\t\t Auto\n    -m [w][h]\t\tManual [Width] [Height]\n\nPattern (Optional):\n    -gun\t\tGosper Glider Gun\n";
 const int WIDTH = 64;
 const int HEIGHT = 64;
@@ -59,26 +60,26 @@ int main(int argc, const char *argv[]) {
 	int size;
 	switch(argc) {
 		case 1:
-			printf("Default Configuration\n");
+			// configuracion por defecto
 			life_cpu(WIDTH, HEIGHT, true);
 			break;
 		case 3:
-			printf("gpu1/gpu2/cpu + a\n");
+			// posibles llamadas como gpu1/gpu2/cpu + auto
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-a", argv);
 			if (mode == 1) {
-				printf("-a\n");
+				// auto
 				switch (devicemode) {
 					case 1:
-						printf("-cpu\n");
+						// cpu
 						life_cpu(WIDTH, HEIGHT, false);
 						break;
 					case 2:
-						printf("-gpu\n");
+						// gpu
 						// code here
 						break;
 					case 3:
-						printf("-gpu-optimized\n");
+						// gpu optimized
 						// code here
 						break;
 					default:
@@ -90,24 +91,23 @@ int main(int argc, const char *argv[]) {
 			}
 			break;
 		case 4:
-			printf("gpu1/gpu2/cpu + a + patron\n");
+			// posibles llamadas como gpu1/gpu2/cpu + auto + glider gun
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-a", argv);
 			gun = checkGun(3, argv);
 			if (mode == 1 && gun == 1) {
-				printf("-a\n");
-				printf("-gun\n");
+				// auto + gun
 				switch (devicemode) {
 					case 1:
-						printf("-cpu\n");
+						// cpu
 						life_cpu(WIDTH, HEIGHT, true);
 						break;
 					case 2:
-						printf("-gpu\n");
+						// gpu
 						// code here
 						break;
 					case 3:
-						printf("-gpu-optimized\n");
+						// gpu optimized
 						// code here
 						break;
 					default:
@@ -119,24 +119,23 @@ int main(int argc, const char *argv[]) {
 			}
 			break;
 		case 5:
-			printf("gpu1/gpu2/cpu + m + value + value\n");
+			// posibles llamadas como gpu1/gpu2/cpu + manual + valores
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-m", argv);
 			size = checkSize(argv);
 			if (mode == 2 && size == 1) {
-				printf("-m\n");
-				printf("se puede hacer cast\n");
+				// manual + valores 
 				switch (devicemode) {
 					case 1:
-						printf("-cpu\n");
+						// cpu
 						life_cpu(atoi(argv[3]), atoi(argv[4]), false);
 						break;
 					case 2:
-						printf("-gpu\n");
+						// gpu
 						// code here
 						break;
 					case 3:
-						printf("-gpu-optimized\n");
+						// gpu optimized
 						// code here
 						break;
 					default:
@@ -148,26 +147,24 @@ int main(int argc, const char *argv[]) {
 			}
 			break;
 		case 6:
-			printf("gpu1/gpu2/cpu + m + value + value + patron\n");
+			// posibles llamadas como gpu1/gpu2/cpu + manual + valores + glider gun
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-m", argv);
 			size = checkSize(argv);
 			gun = checkGun(5, argv);
 			if (mode == 2 && size == 1 && gun == 1) {
-				printf("-m\n");
-				printf("se puede hacer cast\n");
-				printf("-gun\n");
+				// manual + valores + gun
 				switch (devicemode) {
 					case 1:
-						printf("-cpu\n");
+						// cpu
 						life_cpu(atoi(argv[3]), atoi(argv[4]), true);
 						break;
 					case 2:
-						printf("-gpu\n");
+						// gpu
 						// code here
 						break;
 					case 3:
-						printf("-gpu-optimized\n");
+						// gpu optimized
 						// code here
 						break;
 					default:

@@ -5,18 +5,6 @@
  */
 
 /**
- * INIT_WORLD populates an array representing a 2d matrix, of width w and
- * height h.
- * WARNING: 'world' must be allocated before the function call.
- */
-void random_init_world(int* world, int w, int h)
-{
-    srand(time(NULL));
-    for (int i = 0; i < w*h; ++i)
-        world[i] = rand()%2;
-}
-
-/**
  * PRINT_WORLD traverses the array printing the content. If cell empty prints
  * 'O', if populated prints 'X'. w means width and h means height
  */
@@ -43,7 +31,7 @@ void print_world(int* world, int w, int h)
  *A dead cell surrounded by exactly 3 alive cells is revived.
  *An alive cell surronded by 2 or 3 alive cells gets to live, otherwise dies.
  */
-void generate(int* _old, int* _new, int w, int h, offset moves[])
+void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 {
 	for (int i = 0; i < w; ++i)
 	{
@@ -81,6 +69,18 @@ void generate(int* _old, int* _new, int w, int h, offset moves[])
  * The following is the implementation of several patterns in the game of 
  * life, known for their characteristic behaviour
  */
+
+/**
+ * INIT_WORLD populates an array representing a 2d matrix, of width w and
+ * height h.
+ * WARNING: 'world' must be allocated before the function call.
+ */
+void random_init_world(int* world, int w, int h)
+{
+    srand(time(NULL));
+    for (int i = 0; i < w*h; ++i)
+        world[i] = rand()%2;
+}
 
 /**
  * A glider belongs to the kind of patterns known as 'spaceships', which travels

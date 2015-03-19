@@ -12,6 +12,6 @@ void random_init_world(int* world, int w, int h);
 void glider_init_world(int* world, int w, int h);
 void gosper_glider_gun_init_world(int* world, int w, int h);
 void print_world(int* world, int w, int h);
-void generate(int* _old, int* _new, int w, int h, offset moves[]);
+void generate_cpu(int* _old, int* _new, int w, int h, offset moves[]);
 
 #endif

@@ -1,3 +1,6 @@
+#ifndef HANDLER
+#define HANDLER
+
 #include "world.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,3 +10,5 @@
 using namespace std;
 
 void life_cpu(int width, int height, bool gun);
+
+#endif

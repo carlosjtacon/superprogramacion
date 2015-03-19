@@ -1,8 +1,10 @@
 #include "handler.h"
 
+// este fichero contiene las llamadas a game of life en host y device
+
  void life_cpu(int width, int height, bool gun)
  {
-
+ 	//llamada a ejecutar el juego de la vida en CPU, random o patrón y tamaño por parámetro
  	size_t size = width * height * sizeof(int);
 
  	int * _old = (int*) malloc(size);
@@ -10,14 +12,13 @@
  	for (int i = 0; i < size; ++i)
  		_new[i] = 0;
 
- 	system("clear");
- 	
  	if (gun) {
  		gosper_glider_gun_init_world(_old, width, height);
  	} else {
  		random_init_world(_old, width, height);
  	}
  	
+ 	system("clear");
  	print_world(_old, width, height);
  	usleep(50000);
  	system("clear");
@@ -34,11 +35,11 @@
 
  	while (1)
  	{
- 		generate(_old, _new, width, height, moves);
+ 		generate_cpu(_old, _new, width, height, moves);
  		print_world(_new, width, height);
  		usleep(50000);
  		system("clear");
- 		generate(_new, _old, width, height, moves);
+ 		generate_cpu(_new, _old, width, height, moves);
  		print_world(_old, width, height);
  		usleep(50000);
  		system("clear");
