@@ -4,6 +4,9 @@
  */
 #include "device.h"
 
+/**
+* kernel no optimizado
+**/
 __global__ 
 void generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
  {
@@ -40,7 +43,9 @@ void generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 		_new[pos]=1;
 	} 
 }
-
+/**
+* wrapper para el kernel no optimizado
+**/
 void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 {
 	size_t size = w*h*sizeof(int);
@@ -59,4 +64,44 @@ void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 	cudaMemcpy(_new, d_new, size, cudaMemcpyDeviceToHost);
 	cudaFree((void **)&d_old);
 	cudaFree((void **)&d_new);
+}
+/**
+* wrapper para el kernel optimizado
+**/
+void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[])
+{
+	size_t size = w*h*sizeof(int);
+    int* d_old;
+	cudaMalloc((void **)&d_old,size);
+ 	cout << "llega" << endl;
+	int* d_new;
+	cudaMalloc((void **)&d_new,size);
+    cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
+    cudaMemcpy(d_new,_new,size,cudaMemcpyHostToDevice);
+    int gridx = w/TILE_W;
+    int gridy= h/TILE_H;
+    if (w%TILE_W > 0)
+    	gridx+=1;
+    if (h%TILE_H > 0)
+    	gridy+=1;
+    cout << "gridx=" << gridx <<endl;
+    cout << "gridy=" << gridy <<endl;
+	dim3 gridSize(gridx, gridy);
+	dim3 blockSize(TILE_W,TILE_H);
+	generate_gpu_optimized <<<gridSize, blockSize>>> (d_old, d_new, w, h, moves);
+	cudaMemcpy(_old, d_old, size, cudaMemcpyDeviceToHost);
+	cudaMemcpy(_new, d_new, size, cudaMemcpyDeviceToHost);
+	cudaFree(d_old);
+	cudaFree(d_new);
+}
+/**
+* realiza la operación a mod b; A diferencia de '%' en C,
+* esta función devuelve siempre el modulo positivo (-1 mod 5 = 4)
+**/
+__device__ int mod(int a, int b)
+{
+	if (a < 0)
+		return b+a;
+	else
+		return a%b;
 }
