@@ -49,10 +49,10 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  				generate_cpu(_old, _new, width, height, moves);
  				break;
  			case 1:
- 				generate_gpu(_old, _new, width, height);
+ 				call_generate_gpu(_old, _new, width, height);
  				break;
  			case 2:
- 				generate_gpu_optimized(_old, _new, width, height);
+ 				call_generate_gpu_optimized(_old, _new, width, height);
  				break;
  		}
  		print_world(_new, width, height);
@@ -64,10 +64,10 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  				generate_cpu(_new, _old, width, height, moves);
  				break;
  			case 1:
- 				generate_gpu(_new, _old, width, height);
+ 				call_generate_gpu(_new, _old, width, height);
  				break;
  			case 2:
- 				generate_gpu_optimized(_new, _old, width, height);
+ 				call_generate_gpu_optimized(_new, _old, width, height);
  				break;
  		}
  		print_world(_old, width, height);

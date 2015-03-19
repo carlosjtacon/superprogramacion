@@ -113,13 +113,17 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
 **/
 void call_generate_gpu(int* _old, int* _new, int w, int h)
 {
+	cudaDeviceProp deviceProp;
+ 	cudaGetDeviceProperties(&deviceProp, 0);
+ 	cout << deviceProp.maxThreadsPerBlock << endl;
+
 	size_t size = w*h*sizeof(int);
-    int* d_old;
+ 	int* d_old;
 	cudaMalloc((void **)&d_old,size);
 	int* d_new;
 	cudaMalloc((void **)&d_new,size);
-    cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
-    cudaMemcpy(d_new,_new,size,cudaMemcpyHostToDevice);
+ 	cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
+ 	cudaMemcpy(d_new,_new,size,cudaMemcpyHostToDevice);
 	dim3 gridSize(8,8);
 	dim3 blockSize(8,8);
 	generate_gpu <<<gridSize, blockSize>>> (d_old, d_new, w, h);
@@ -171,3 +175,5 @@ int d_mod(int a, int b)
 	else
 		return a%b;
 }
+
+
