@@ -7,7 +7,7 @@
 using namespace std;
 
 //string de ayuda para el uso del programa
-const char *HELP = "USAGE\n    ./golife (Run with the default configuration)\n    ./golife [Device Mode] [Running Mode] [Custom Pattern] [--help]\n\nDESCRIPTION\nDevice Mode:\n    -cpu\t\tProgram runs on CPU\n    -gpu\t\tProgram runs on GPU\n    -gpu-optimized\t Program runs on GPU Shared Memory\n\nRunning Mode:\n    -a\t\t\t Auto\n    -m [w][h]\t\tManual [Width] [Height]\n\nPattern (Optional):\n    -gun\t\tGosper Glider Gun\n";
+const char *HELP = "USAGE\n    ./golife (Run with the default configuration)\n    ./golife [Device Mode] [Running Mode] [Custom Pattern] [--help]\n\nDESCRIPTION\nDevice Mode:\n    -cpu\t\tProgram runs on CPU\n    -gpu\t\tProgram runs on GPU\n    -gpu-optimized\t Program runs on GPU Shared Memory\n\nRunning Mode:\n    -a\t\t\t Auto\n    -m [w][h]\t\tManual [Width] [Height]\n\nPattern (Optional):\n    -gun\t\tGosper Glider Gun\n    -glider\t\tGosper Glider\n";
 const int WIDTH = 64;
 const int HEIGHT = 64;
 
@@ -35,10 +35,12 @@ int checkMode (const char *mode, const char *argv[]) {
 	}
 }
 
-int checkGun (int pos, const char *argv[]) {
+int checkPattern (int pos, const char *argv[]) {
 	// comprobamos que la entrada sea correcta (-gun) según la posicion indicada
 	if (strcmp(argv[pos], "-gun")==0) {
 		return 1;
+	} else if (strcmp(argv[pos], "-glider")==0) {
+		return 2;
 	} else {
 		return 0;
 	}
@@ -56,7 +58,7 @@ int checkSize (const char *argv[]) {
 int main(int argc, const char *argv[]) {
 	int devicemode;
 	int mode;
-	int gun;
+	int pattern;
 	int size;
 	switch(argc) {
 		case 1:
@@ -72,7 +74,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(WIDTH, HEIGHT, false);
+						life_cpu(WIDTH, HEIGHT, 0);
 						break;
 					case 2:
 						// gpu
@@ -91,16 +93,16 @@ int main(int argc, const char *argv[]) {
 			}
 			break;
 		case 4:
-			// posibles llamadas como gpu1/gpu2/cpu + auto + glider gun
+			// posibles llamadas como gpu1/gpu2/cpu + auto + patron
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-a", argv);
-			gun = checkGun(3, argv);
-			if (mode == 1 && gun == 1) {
-				// auto + gun
+			pattern = checkPattern(3, argv);
+			if (mode == 1 && pattern != 0) {
+				// auto + pattern
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(WIDTH, HEIGHT, true);
+						life_cpu(WIDTH, HEIGHT, pattern);
 						break;
 					case 2:
 						// gpu
@@ -128,7 +130,7 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[3]), atoi(argv[4]), false);
+						life_cpu(atoi(argv[3]), atoi(argv[4]), 0);
 						break;
 					case 2:
 						// gpu
@@ -151,13 +153,13 @@ int main(int argc, const char *argv[]) {
 			devicemode = checkHostDevice(argv);
 			mode = checkMode("-m", argv);
 			size = checkSize(argv);
-			gun = checkGun(5, argv);
-			if (mode == 2 && size == 1 && gun == 1) {
-				// manual + valores + gun
+			pattern = checkPattern(5, argv);
+			if (mode == 2 && size == 1 && pattern == 1) {
+				// manual + valores + pattern
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[3]), atoi(argv[4]), true);
+						life_cpu(atoi(argv[3]), atoi(argv[4]), pattern);
 						break;
 					case 2:
 						// gpu

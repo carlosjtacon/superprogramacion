@@ -5,27 +5,6 @@
  */
 
 /**
- * PRINT_WORLD traverses the array printing the content. If cell empty prints
- * 'O', if populated prints 'X'. w means width and h means height
- */
-void print_world(int* world, int w, int h)
-{
-	for (int i = 0; i < w; ++i)
-	{
-		for (int j = 0; j < h; ++j)
-		{
-			int pos = i*w + j;
-			if (world[pos] == 0)
-				cout << ' ';
-			else
-				cout << 'X';
-		}
-		cout << endl;
-	}
-}
-
-
-/**
  *GENERATE traverses the world calculating new generetions based on the simple
  *rules:
  *A dead cell surrounded by exactly 3 alive cells is revived.
@@ -66,12 +45,32 @@ void generate_cpu(int* _old, int* _new, int w, int h, offset moves[])
 }
 
 /**
+ * PRINT_WORLD traverses the array printing the content. If cell empty prints
+ * 'O', if populated prints 'X'. w means width and h means height
+ */
+void print_world(int* world, int w, int h)
+{
+	for (int i = 0; i < w; ++i)
+	{
+		for (int j = 0; j < h; ++j)
+		{
+			int pos = i*w + j;
+			if (world[pos] == 0)
+				cout << ' ';
+			else
+				cout << 'X';
+		}
+		cout << endl;
+	}
+}
+
+/**
  * The following is the implementation of several patterns in the game of 
  * life, known for their characteristic behaviour
  */
 
 /**
- * INIT_WORLD populates an array representing a 2d matrix, of width w and
+ * INIT_WORLD pobla un array representando una matriz 2d, con w width y
  * height h.
  * WARNING: 'world' must be allocated before the function call.
  */
@@ -83,8 +82,8 @@ void random_init_world(int* world, int w, int h)
 }
 
 /**
- * A glider belongs to the kind of patterns known as 'spaceships', which travels
- * the world
+ * Un glider es un tipo de patron conocido como 'spaceship', que viaja por
+ * el mundo
  */
 void glider_init_world(int* world, int w, int h)
 {
@@ -96,7 +95,7 @@ void glider_init_world(int* world, int w, int h)
 }
 
 /**
- * The gosper glider gun is a pattern that periodically generates a glider.
+ * El gosper glider gun es un patron que genera periodicamente un glider.
  */
 void gosper_glider_gun_init_world(int* world, int w, int h)
 {

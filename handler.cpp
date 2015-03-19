@@ -2,7 +2,7 @@
 
 // este fichero contiene las llamadas a game of life en host y device
 
- void life_cpu(int width, int height, bool gun)
+ void life_cpu(int width, int height, int pattern)
  {
  	//llamada a ejecutar el juego de la vida en CPU, random o patrón y tamaño por parámetro
  	size_t size = width * height * sizeof(int);
@@ -12,8 +12,10 @@
  	for (int i = 0; i < size; ++i)
  		_new[i] = 0;
 
- 	if (gun) {
+ 	if (pattern == 1) {
  		gosper_glider_gun_init_world(_old, width, height);
+ 	} else if (pattern == 2) {
+		glider_init_world(_old, width, height);
  	} else {
  		random_init_world(_old, width, height);
  	}
