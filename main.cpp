@@ -63,7 +63,7 @@ int main(int argc, const char *argv[]) {
 	switch(argc) {
 		case 1:
 			// configuracion por defecto
-			life_cpu(WIDTH, HEIGHT, 1, false);
+			life(WIDTH, HEIGHT, 1, false, 0);
 			break;
 
 		case 5:
@@ -76,15 +76,15 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[1]), atoi(argv[2]), 0, false);
+						life(atoi(argv[1]), atoi(argv[2]), 0, false, 0);
 						break;
 					case 2:
 						// gpu
-						life_gpu(atoi(argv[1]), atoi(argv[2]), 0, false);
+						life(atoi(argv[1]), atoi(argv[2]), 0, false, 1);
 						break;
 					case 3:
 						// gpu optimized
-						// code here
+						life(atoi(argv[1]), atoi(argv[2]), 0, false, 2);
 						break;
 					default:
 						printf("%s", HELP);
@@ -95,15 +95,15 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[1]), atoi(argv[2]), 0, true);
+						life(atoi(argv[1]), atoi(argv[2]), 0, true, 0);
 						break;
 					case 2:
 						// gpu
-						life_gpu(atoi(argv[1]), atoi(argv[2]), 0, true);
+						life(atoi(argv[1]), atoi(argv[2]), 0, true, 1);
 						break;
 					case 3:
 						// gpu optimized
-						// code here
+						life(atoi(argv[1]), atoi(argv[2]), 0, true, 2);
 						break;
 					default:
 						printf("%s", HELP);
@@ -125,15 +125,15 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[1]), atoi(argv[2]), pattern, false);
+						life(atoi(argv[1]), atoi(argv[2]), pattern, false, 0);
 						break;
 					case 2:
 						// gpu
-						life_gpu(atoi(argv[1]), atoi(argv[2]), pattern, false);
+						life(atoi(argv[1]), atoi(argv[2]), pattern, false, 1);
 						break;
 					case 3:
 						// gpu optimized
-						// code here
+						life(atoi(argv[1]), atoi(argv[2]), pattern, false, 2);
 						break;
 					default:
 						printf("%s", HELP);
@@ -144,15 +144,15 @@ int main(int argc, const char *argv[]) {
 				switch (devicemode) {
 					case 1:
 						// cpu
-						life_cpu(atoi(argv[1]), atoi(argv[2]), pattern, true);
+						life(atoi(argv[1]), atoi(argv[2]), pattern, true, 0);
 						break;
 					case 2:
 						// gpu
-						life_gpu(atoi(argv[1]), atoi(argv[2]), pattern, true);
+						life(atoi(argv[1]), atoi(argv[2]), pattern, true, 1);
 						break;
 					case 3:
 						// gpu optimized
-						// code here
+						life(atoi(argv[1]), atoi(argv[2]), pattern, true, 2);
 						break;
 					default:
 						printf("%s", HELP);

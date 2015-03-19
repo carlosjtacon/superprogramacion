@@ -14,7 +14,11 @@
 **/
 
 #include <cuda_runtime.h>
+#include <iostream>
 #include "structures.h"
+
+using namespace std;
+
 __global__ void generate_gpu(int* _old, int* _new, int w, int h, offset moves[]);
 __global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[]);
 void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[]);

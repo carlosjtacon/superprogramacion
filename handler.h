@@ -10,7 +10,6 @@
 
 using namespace std;
 
-void life_cpu(int width, int height, int pattern, bool manual);
-void life_gpu(int width, int height, int pattern, bool manual);
+void life(int width, int height, int pattern, bool manual, int device);
 
 #endif
