@@ -10,10 +10,15 @@
 __global__ 
 void generate_gpu(int* _old, int* _new, int w, int h)
  {
+
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
     int j = threadIdx.x + blockIdx.x * blockDim.x;
 
     int pos = i * w + j;
+
+    if (i >= h || j >= w) {
+    	return;
+    }
 
     struct offset moves[8];
     moves[0].i = -1;    moves[0].j = -1;
@@ -29,7 +34,7 @@ void generate_gpu(int* _old, int* _new, int w, int h)
  	for (int m = 0; m < 8; ++m)
  	{
 		// index of _old vector neigbour:
- 		int old_p = ((i+moves[m].i)%w)*w + (j+moves[m].j)%h;
+ 		int old_p = d_mod((i+moves[m].i), h)*w + d_mod((j+moves[m].j), w);
  		if (_old[old_p]>0)
  			count++;
  	}
@@ -113,10 +118,6 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
 **/
 void call_generate_gpu(int* _old, int* _new, int w, int h)
 {
-	cudaDeviceProp deviceProp;
- 	cudaGetDeviceProperties(&deviceProp, 0);
- 	cout << deviceProp.maxThreadsPerBlock << endl;
-
 	size_t size = w*h*sizeof(int);
  	int* d_old;
 	cudaMalloc((void **)&d_old,size);
@@ -124,8 +125,15 @@ void call_generate_gpu(int* _old, int* _new, int w, int h)
 	cudaMalloc((void **)&d_new,size);
  	cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
  	cudaMemcpy(d_new,_new,size,cudaMemcpyHostToDevice);
-	dim3 gridSize(8,8);
-	dim3 blockSize(8,8);
+	
+ 	int wsize = w/16;
+ 	int hsize = h/16;
+ 	if(w%16 != 0) wsize++;
+ 	if(h%16 != 0) hsize++;
+
+	dim3 blockSize(16, 16);
+	dim3 gridSize(wsize, hsize);
+	
 	generate_gpu <<<gridSize, blockSize>>> (d_old, d_new, w, h);
 	cudaMemcpy(_old, d_old, size, cudaMemcpyDeviceToHost);
 	cudaMemcpy(_new, d_new, size, cudaMemcpyDeviceToHost);
