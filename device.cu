@@ -44,6 +44,68 @@ void generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
 	} 
 }
 /**
+* kernel optimizado
+**/
+__global__ void generate_gpu_optimized(int* _old, int* _new, int w, int h, offset moves[])
+ {
+ 	//coordenadas del hilo actual en _old o _new
+ 	int i = threadIdx.y + blockIdx.y * blockDim.y;
+    int j = threadIdx.x + blockIdx.x * blockDim.x;
+    //posición en el array lineal de la celda actual
+    int pos = i * w + j;
+    //submatriz a ser leída, en memoria compartida, incluye vecinos exteriores
+    __shared__ int sub_world [TILE_W+2] [TILE_H+2];
+    //coordenadas del hilo actual en matriz sub_world
+    int si = threadIdx.y +1;
+    int sj = threadIdx.x +1;
+    //cada hilo carga su vecino superior izquierdo
+    sub_world[si-1][sj-1] = _old[d_mod((i-1),h)*w+d_mod((j-1),w)];
+    //cada hilo de la fila inferior carga el vecino izq y izquierdo inferior
+    if (threadIdx.y == TILE_H-1)
+    {
+	    sub_world[si][sj-1] = _old[i*h+d_mod((j-1),w)];
+	    sub_world[si+1][sj-1] = _old[d_mod((i+1),h)*w+d_mod((j-1),w)];
+    }
+    //cada hilo de la columna derecha se carga a si mismo y su vecino derecho
+    if (threadIdx.x == TILE_W-1)
+    {
+    	sub_world[si][sj] = _old[pos];
+    	sub_world[si][sj+1] = _old[i*w + d_mod((j+1),w)];
+    }
+    //el hilo de la esquina superior derecha carga su vecino superior y superior derecho
+    if (threadIdx.y == 0 && threadIdx.x == TILE_W-1)
+    {
+    	sub_world[si-1][sj] = _old[d_mod((i-1),h)*w+j];
+    	sub_world[si-1][sj+1] = _old[d_mod((i-1),h)*w+d_mod((j+1),w)];
+    }
+    //el hilo de la esquina inferior derecha carga su vecino inferior e inferior derecho
+    if (threadIdx.y == TILE_H-1 && threadIdx.x == TILE_W-1)
+    {
+    	sub_world[si+1][sj] = _old[d_mod((i+1),h)*w + j];
+    	sub_world[si+1][sj+1] = _old[d_mod((i+1),h)*w + d_mod((j+1),w)];
+    }
+    //esperar a que toda la submatriz esté cargada
+	__syncthreads();
+ 	if (i >= w || j >= h)
+	 	return;
+	//sumar todos vecinos, así evitamos divergencia
+ 	int count = sub_world[si-1][sj-1]+sub_world[si-1][sj]+sub_world[si-1][sj+1]
+ 		+sub_world[si][sj-1]+sub_world[si][sj+1]
+ 		+sub_world[si+1][sj-1]+sub_world[si+1][sj]+sub_world[si+1][sj+1];
+	//aplicar reglas
+ 	if (count > 3 || count < 2){
+ 		_new[pos]=0;
+ 	}
+ 	else if (count == 2){
+ 		_new[pos] = _old[pos];
+ 	}
+	else{				//count == 3
+		_new[pos]=1;
+	}
+	 _new[pos] = sub_world[si-1][sj-1];
+	// _new[pos] = threadIdx.x;
+}
+/**
 * wrapper para el kernel no optimizado
 **/
 void call_generate_gpu(int* _old, int* _new, int w, int h, offset moves[])
@@ -98,7 +160,7 @@ void call_generate_gpu_optimized(int* _old, int* _new, int w, int h, offset move
 * realiza la operación a mod b; A diferencia de '%' en C,
 * esta función devuelve siempre el modulo positivo (-1 mod 5 = 4)
 **/
-__device__ int mod(int a, int b)
+__device__ int d_mod(int a, int b)
 {
 	if (a < 0)
 		return b+a;
