@@ -58,6 +58,7 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
  	//coordenadas del hilo actual en _old o _new
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
     int j = threadIdx.x + blockIdx.x * blockDim.x;
+    //si el tamaño de bloque > matriz, salimos
     if (i >= h || j >= w)
 	 	return;
     //posición en el array lineal de la celda actual
@@ -73,25 +74,25 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
 	if (threadIdx.y == 0 && threadIdx.x == 0)
 		sub_world[si-1][sj-1] = _old[d_mod(i-1,h)*w + d_mod(j-1,w)];
 	//esquina superior derecha
-	if (threadIdx.y == 0 && (threadIdx.x == TILE_W-1 || threadIdx.x == w-1))
+	if (threadIdx.y == 0 && (threadIdx.x == TILE_W-1 || j == w-1))
 		sub_world[si-1][sj+1] = _old[d_mod(i-1,h)*w + d_mod(j+1,w)];
 	//esquina inferior izquierda
-	if ((threadIdx.y == TILE_H-1 || threadIdx.y == h-1) && threadIdx.x == 0)
+	if ((threadIdx.y == TILE_H-1 || i == h-1) && threadIdx.x == 0)
 		sub_world[si+1][sj-1] = _old[d_mod(i+1,h)*w + d_mod(j-1,w)];
 	//esquina inferior derecha
-	if ((threadIdx.y == TILE_H-1 || threadIdx.y == h-1) && (threadIdx.x == TILE_W-1 ||threadIdx.x == w-1))
+	if ((threadIdx.y == TILE_H-1 || i == h-1) && (threadIdx.x == TILE_W-1 ||j == w-1))
 		sub_world[si+1][sj+1] = _old[d_mod(i+1,h)*w + d_mod(j+1,w)];
 	//fila superior
 	if (threadIdx.y == 0)
 		sub_world[si-1][sj] = _old[d_mod(i-1,h)*w +j];
 	//fila inferior
-	if (threadIdx.y == TILE_H-1 || threadIdx.y == h-1)
+	if (threadIdx.y == TILE_H-1 || i == h-1)
 		sub_world[si+1][sj] = _old[d_mod(i+1,h)*w +j];
 	//columna izquierda
 	if (threadIdx.x == 0)
 		sub_world[si][sj-1] = _old[i*w +d_mod(j-1,w)];
 	//columna derecha
-	if (threadIdx.x == TILE_W-1 || threadIdx.x == w-1)
+	if (threadIdx.x == TILE_W-1 || j == w-1)
 		sub_world[si][sj+1] = _old[i*w +d_mod(j+1,w)];
     //esperar a que toda la submatriz esté cargada
 	__syncthreads();
