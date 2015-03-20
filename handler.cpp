@@ -34,7 +34,7 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  	} else if (pattern == 0) {
  		random_init_world(_old, width, height);
  	} else {
- 		printf("Tamaño incorrecto para el patrón seleccionado.\n");
+ 		printf("Tamaño incorrecto para el patrón seleccionado.\nTamaños mínimos:\n-gun\t\t40 40\n-glider:\t10 10\n");
  		return;
  	}
  	
