@@ -63,12 +63,13 @@ void print_world(int* world, int w, int h)
 		{
 			int pos = i*w + j;
 			if (world[pos] == 0)
-				cout << "0 ";
+				printw("0 ");
 			else
-				cout << ". ";
+				printw(". ");
 		}
-		cout << endl;
+		printw("\n");
 	}
+	refresh();			/* Print it on to the real screen */
 }
 
 /**

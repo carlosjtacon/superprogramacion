@@ -5,6 +5,7 @@
 #include <time.h>
 #include <iostream>
 #include "structures.h"
+#include <ncurses.h>
 
 using namespace std;
 

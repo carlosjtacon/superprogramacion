@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <unistd.h>
+#include <ncurses.h>
 
 using namespace std;
 

@@ -38,15 +38,18 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  		return;
  	}
  	
+ 	//aquí empieza ncurses
+ 	initscr();			/* Start curses mode */
+
  	//empieza la iteración en cpu
- 	system("clear");
+ 	clear();
  	print_world(_old, width, height);
  	usleep(50000);
 
  	while (1)
  	{
- 		if(manual) getchar();
- 		system("clear");
+ 		if(manual) getch();;
+ 		clear();
  		switch (device) {
  			case 0:
  				generate_cpu(_old, _new, width, height, moves);
@@ -60,8 +63,8 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  		}
  		print_world(_new, width, height);
  		usleep(50000);
- 		if(manual) getchar();
- 		system("clear");
+ 		if(manual) getch();;
+ 		clear();
  		switch (device) {
  			case 0:
  				generate_cpu(_new, _old, width, height, moves);
@@ -76,4 +79,5 @@ void life(int width, int height, int pattern,  bool manual, int device) {
  		print_world(_old, width, height);
  		usleep(50000);
  	}
+ 	endwin();			/* End curses mode */
 }
