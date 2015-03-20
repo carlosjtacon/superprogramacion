@@ -58,6 +58,8 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
  	//coordenadas del hilo actual en _old o _new
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
     int j = threadIdx.x + blockIdx.x * blockDim.x;
+    if (i >= w || j >= h)
+	 	return;
     //posición en el array lineal de la celda actual
     int pos = i * w + j;
     //submatriz a ser leída, en memoria compartida, incluye vecinos exteriores
@@ -65,36 +67,34 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
     //coordenadas del hilo actual en matriz sub_world
     int si = threadIdx.y +1;
     int sj = threadIdx.x +1;
-    //cada hilo carga su vecino superior izquierdo
-    sub_world[si-1][sj-1] = _old[d_mod((i-1),h)*w+d_mod((j-1),w)];
-    //cada hilo de la fila inferior carga el vecino izq y izquierdo inferior
-    if (threadIdx.y == TILE_H-1)
-    {
-	    sub_world[si][sj-1] = _old[i*h+d_mod((j-1),w)];
-	    sub_world[si+1][sj-1] = _old[d_mod((i+1),h)*w+d_mod((j-1),w)];
-    }
-    //cada hilo de la columna derecha se carga a si mismo y su vecino derecho
-    if (threadIdx.x == TILE_W-1)
-    {
-    	sub_world[si][sj] = _old[pos];
-    	sub_world[si][sj+1] = _old[i*w + d_mod((j+1),w)];
-    }
-    //el hilo de la esquina superior derecha carga su vecino superior y superior derecho
-    if (threadIdx.y == 0 && threadIdx.x == TILE_W-1)
-    {
-    	sub_world[si-1][sj] = _old[d_mod((i-1),h)*w+j];
-    	sub_world[si-1][sj+1] = _old[d_mod((i-1),h)*w+d_mod((j+1),w)];
-    }
-    //el hilo de la esquina inferior derecha carga su vecino inferior e inferior derecho
-    if (threadIdx.y == TILE_H-1 && threadIdx.x == TILE_W-1)
-    {
-    	sub_world[si+1][sj] = _old[d_mod((i+1),h)*w + j];
-    	sub_world[si+1][sj+1] = _old[d_mod((i+1),h)*w + d_mod((j+1),w)];
-    }
+    //cada hilo se carga a si mismo
+    sub_world[si][sj] = _old[pos];
+	//esquina superior izquierda
+	if (threadIdx.y == 0 && threadIdx.x == 0)
+		sub_world[si-1][sj-1] = _old[d_mod(i-1,h)*w + d_mod(j-1,w)];
+	//esquina superior derecha
+	if (threadIdx.y == 0 && (threadIdx.x == TILE_W-1 || threadIdx.x == w-1))
+		sub_world[si-1][sj+1] = _old[d_mod(i-1,h)*w + d_mod(j+1,w)];
+	//esquina inferior izquierda
+	if (threadIdx.y == TILE_H-1 && threadIdx.x == 0)
+		sub_world[si+1][sj-1] = _old[d_mod(i+1,h)*w + d_mod(j-1,w)];
+	//esquina inferior derecha
+	if (threadIdx.y == TILE_H-1 && (threadIdx.x == TILE_W-1 ||threadIdx.x == w-1))
+		sub_world[si+1][sj+1] = _old[d_mod(i+1,h)*w + d_mod(j+1,w)];
+	//fila superior
+	if (threadIdx.y == 0)
+		sub_world[si-1][sj] = _old[d_mod(i-1,h)*w +j];
+	//fila inferior
+	if (threadIdx.y == TILE_H-1)
+		sub_world[si+1][sj] = _old[d_mod(i+1,h)*w +j];
+	//columna izquierda
+	if (threadIdx.x == 0)
+		sub_world[si][sj-1] = _old[i*w +d_mod(j-1,w)];
+	//columna derecha
+	if (threadIdx.x == TILE_W-1 || threadIdx.x == w-1)
+		sub_world[si][sj+1] = _old[i*w +d_mod(j+1,w)];
     //esperar a que toda la submatriz esté cargada
 	__syncthreads();
- 	if (i >= w || j >= h)
-	 	return;
 	//sumar todos vecinos, así evitamos divergencia
  	int count = sub_world[si-1][sj-1]+sub_world[si-1][sj]+sub_world[si-1][sj+1]
  		+sub_world[si][sj-1]+sub_world[si][sj+1]
