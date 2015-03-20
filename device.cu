@@ -76,16 +76,16 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
 	if (threadIdx.y == 0 && (threadIdx.x == TILE_W-1 || threadIdx.x == w-1))
 		sub_world[si-1][sj+1] = _old[d_mod(i-1,h)*w + d_mod(j+1,w)];
 	//esquina inferior izquierda
-	if (threadIdx.y == TILE_H-1 && threadIdx.x == 0)
+	if ((threadIdx.y == TILE_H-1 || threadIdx.y == h-1) && threadIdx.x == 0)
 		sub_world[si+1][sj-1] = _old[d_mod(i+1,h)*w + d_mod(j-1,w)];
 	//esquina inferior derecha
-	if (threadIdx.y == TILE_H-1 && (threadIdx.x == TILE_W-1 ||threadIdx.x == w-1))
+	if ((threadIdx.y == TILE_H-1 || threadIdx.y == h-1) && (threadIdx.x == TILE_W-1 ||threadIdx.x == w-1))
 		sub_world[si+1][sj+1] = _old[d_mod(i+1,h)*w + d_mod(j+1,w)];
 	//fila superior
 	if (threadIdx.y == 0)
 		sub_world[si-1][sj] = _old[d_mod(i-1,h)*w +j];
 	//fila inferior
-	if (threadIdx.y == TILE_H-1)
+	if (threadIdx.y == TILE_H-1 || threadIdx.y == h-1)
 		sub_world[si+1][sj] = _old[d_mod(i+1,h)*w +j];
 	//columna izquierda
 	if (threadIdx.x == 0)
@@ -149,7 +149,6 @@ void call_generate_gpu_optimized(int* _old, int* _new, int w, int h)
 	size_t size = w*h*sizeof(int);
     int* d_old;
 	cudaMalloc((void **)&d_old,size);
- 	cout << "llega" << endl;
 	int* d_new;
 	cudaMalloc((void **)&d_new,size);
     cudaMemcpy(d_old,_old,size,cudaMemcpyHostToDevice);
@@ -160,8 +159,6 @@ void call_generate_gpu_optimized(int* _old, int* _new, int w, int h)
     	gridx+=1;
     if (h%TILE_H > 0)
     	gridy+=1;
-    cout << "gridx=" << gridx <<endl;
-    cout << "gridy=" << gridy <<endl;
 	dim3 gridSize(gridx, gridy);
 	dim3 blockSize(TILE_W,TILE_H);
 	generate_gpu_optimized <<<gridSize, blockSize>>> (d_old, d_new, w, h);
