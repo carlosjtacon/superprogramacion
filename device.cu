@@ -1,6 +1,6 @@
 /**
- * All code related to device, such as kernell and data hanling (copying, 
- * freeing) is placed here.
+ * todo el código relativo al manejo de la gpu (transferencia de datos, reserva
+ * de memoria, kernel), se implementa aqui
  */
 #include "device.h"
 
@@ -58,12 +58,12 @@ void generate_gpu_optimized(int* _old, int* _new, int w, int h)
  	//coordenadas del hilo actual en _old o _new
  	int i = threadIdx.y + blockIdx.y * blockDim.y;
     int j = threadIdx.x + blockIdx.x * blockDim.x;
-    if (i >= w || j >= h)
+    if (i >= h || j >= w)
 	 	return;
     //posición en el array lineal de la celda actual
     int pos = i * w + j;
     //submatriz a ser leída, en memoria compartida, incluye vecinos exteriores
-    __shared__ int sub_world [TILE_W+2] [TILE_H+2];
+    __shared__ int sub_world [TILE_H+2] [TILE_W+2];
     //coordenadas del hilo actual en matriz sub_world
     int si = threadIdx.y +1;
     int sj = threadIdx.x +1;
