@@ -5,7 +5,7 @@ object work {
   //val tablero = List(fila,fila,fila,fila,fila,fila,fila,fila)
   
   val chars = "ANRVMGB"                           //> chars  : String = ANRVMGB
-
+	chars.charAt(1)                           //> res0: Char = N
   
  // val rand =  new Random.alphanumeric
   def fila = {

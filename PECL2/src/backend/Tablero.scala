@@ -5,6 +5,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
   val y = yi
   val content = populate(Nil,x*y)
+  val toChar = "ANRVMGB"
   def random = Random.nextInt(dificulty)
   
   //Crea un tablero con datos aleatorios
@@ -21,9 +22,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def print = print_aux(content,1)
   def print_aux(l:List[Int],n:Int):Unit ={
     if(l.isEmpty) return
-    if((n%8==0) && (n < 64)) {println(l.head); print_aux(l.tail,n+1)}
-    else {scala.Predef.print(l.head+" "); print_aux(l.tail,n+1)}
-  }  
-  
+    if((n%x==0) && (n < x*y)) {println(toChar.charAt(l.head)); print_aux(l.tail,n+1)}
+    else {scala.Predef.print(toChar.charAt(l.head)+" "); print_aux(l.tail,n+1)}
+  }
 
 }
