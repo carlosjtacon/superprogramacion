@@ -1,9 +1,7 @@
 package backend
   
-object Main {
-  def main(args: Array[String]) {
+object Main extends App{
     println("Hello, world!")
     val tab = new Tablero(4)
     tab.print
-  }
 }
