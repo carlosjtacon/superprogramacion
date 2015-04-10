@@ -14,6 +14,12 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     case _ => populate(random::l,n-1)
   }
   
+  def insert(col:Int,pos:Int,l:List[Int]):List[Int] = {
+    if(l.isEmpty) Nil
+    else if (pos==1) col::l.tail
+    else l.head::insert(col,(pos-1),l.tail)
+}
+  
   //Funciones de prueba para aclararme
   //def get_vecinos(x:Int y:Int):List[List[Int]] =
 
