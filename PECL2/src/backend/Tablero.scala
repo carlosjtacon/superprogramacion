@@ -8,8 +8,10 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val toChar = "ANRVMGB"
   def random = Random.nextInt(dificulty)
   
+  def linear_coords(x:Int, y:Int):Int = x * this.x + y
+  
   //Crea un tablero con datos aleatorios
-  def populate(l:List[Int],n:Int):List[Int] = n match{
+  def populate(l:List[Int],n:Int):List[Int] = n match {
     case 0 => l
     case _ => populate(random::l,n-1)
   }
@@ -37,15 +39,24 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     return true
   }
   
+  //Devuelve el entero que representa el color en una posición
+  def get_color(l:List[Int], pos:Int):Int = {
+    return 0
+  }
+  
   //Recibe como parámetros las coordenadas de la cara que mueve y la dirección (se calcularán las coordenadas)
-  def move(l:List[Int], x:Int, y:Int, dir:Char) = {
-    val origen = (x, y)
-    dir match {
-      case 'N' => val destino = (x, y-1)
-      case 'S' => val destino = (x, y+1)
-      case 'E' => val destino = (x+1, y)
-      case 'O' => val destino = (x-1, y)
+  def move(l:List[Int], x:Int, y:Int, dir:Char):List[Int] = {
+    val origen = linear_coords(x, y)
+    val destino = dir match {
+      case 'N' => linear_coords(x, y-1)
+      case 'S' => linear_coords(x, y+1)
+      case 'E' => linear_coords(x+1, y)
+      case 'O' => linear_coords(x-1, y)
+      case  _  => 0
     }
+    val origenColor = get_color(l, origen)
+    val destinoColor = get_color(l, destino)
+    return insert(origenColor, destino, insert(destinoColor, origen, l))
   }
   
   //Método principal recursivo para las jugadas
@@ -58,9 +69,9 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     println("Direccion (N, S, E, O): ")
     val dir = Console.readChar
     println("Coordenadas: " + x + ", " + y + " Dirección: " + dir)
-    move(content, x, y, dir)
-    clean_table(content)
-    play(content)
+    val lista_movimiento = move(l, x, y, dir)
+    val lista_limpia = clean_table(lista_movimiento)
+    play(lista_limpia)
   }
   
   //Funciones de imprimir
