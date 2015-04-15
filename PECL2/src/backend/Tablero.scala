@@ -19,7 +19,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   //Inserta el color col en la posicion lineal pos de la lista l
   def insert(col:Int,pos:Int,l:List[Int]):List[Int] = {
     if(l.isEmpty) Nil
-    else if (pos==1) col::l.tail
+    else if (pos==0) col::l.tail
     else l.head::insert(col,(pos-1),l.tail)
   }
 
@@ -64,7 +64,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   //Método principal recursivo para las jugadas
   def play(l:List[Int]):List[Int] = {
     println("Tablero: ")
-    print
+    print_aux(l,1)
     println("\nCoordenada X: ")
     val x = Console.readInt
     println("Coordenada Y: ")
