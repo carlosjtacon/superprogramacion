@@ -16,14 +16,12 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     case _ => populate(random::l,n-1)
   }
   
+  //Inserta el color col en la posicion lineal pos de la lista l
   def insert(col:Int,pos:Int,l:List[Int]):List[Int] = {
     if(l.isEmpty) Nil
     else if (pos==1) col::l.tail
     else l.head::insert(col,(pos-1),l.tail)
 }
-  
-  //Funciones de prueba para aclararme
-  //def get_vecinos(x:Int y:Int):List[List[Int]] =
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
@@ -41,7 +39,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   
   //Devuelve el entero que representa el color en una posición
   def get_color(l:List[Int], pos:Int):Int = {
-    return 0
+    if (pos==0) l.head
+    else get_color(l.tail, pos-1)
   }
   
   //Recibe como parámetros las coordenadas de la cara que mueve y la dirección (se calcularán las coordenadas)
@@ -52,15 +51,19 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       case 'S' => linear_coords(x, y+1)
       case 'E' => linear_coords(x+1, y)
       case 'O' => linear_coords(x-1, y)
-      case  _  => 0
     }
     val origenColor = get_color(l, origen)
+    println(">>> Origen: " + origen)
+    println(">>> Color Origen: " + toChar.charAt(origenColor))
     val destinoColor = get_color(l, destino)
+    println(">>> Destino: " + destino)
+    println(">>> Color Destino: " + toChar.charAt(destinoColor))
     return insert(origenColor, destino, insert(destinoColor, origen, l))
   }
   
   //Método principal recursivo para las jugadas
   def play(l:List[Int]):List[Int] = {
+    println("Tablero: ")
     print
     println("\nCoordenada X: ")
     val x = Console.readInt
@@ -68,7 +71,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     val y = Console.readInt
     println("Direccion (N, S, E, O): ")
     val dir = Console.readChar
-    println("Coordenadas: " + x + ", " + y + " Dirección: " + dir)
+    println(">>> Coordenadas: " + x + ", " + y + " Dirección: " + dir)
     val lista_movimiento = move(l, x, y, dir)
     val lista_limpia = clean_table(lista_movimiento)
     play(lista_limpia)
