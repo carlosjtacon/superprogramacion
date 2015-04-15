@@ -1,5 +1,6 @@
 package backend
 import scala.util.Random
+import com.sun.org.apache.xpath.internal.operations.Equals
 
 class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
@@ -25,7 +26,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
-    if (is_clean(l)) {
+    if (is_clean(l,0,1)) {
       return l
     } else {
       return clean_table(l)
@@ -33,8 +34,42 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   }
   
   //Comprueba si el tablero está limpio
-  def is_clean(l:List[Int]):Boolean = {
-    return true
+  def is_clean(l:List[Int], init:Int, c:Int):Boolean = {
+    if (c==3) return false 
+    //vertical
+    if(get_color(l,init).equals(get_color(l,next_vertical(init)))) { 
+      if(is_clean(l, next_vertical(init), c+1)) {
+        //horizontal
+        if(get_color(l,init).equals(get_color(l,next_horizontal(init)))) {
+          if (is_clean(l, next_horizontal(init), c+1)) {
+            return true
+          } else return false
+        } else is_clean(l, next_horizontal(init), 1)
+        return true
+      } else return false
+    } else is_clean(l, next_vertical(init), 1)
+  }
+  
+//  Comprueba si hay filas de al menos 3 seguidos en las columnas
+  def check_vertical = {
+    
+  }
+  
+  //  Comprueba si hay filas de al menos 3 seguidos en las columnas
+  def check_horizontal = {
+    
+  }
+  
+  //Devuelve la siguiente posicion lineal vertical a una dada, -1 si es la última
+  def next_vertical(pos:Int):Int = {
+    if(pos >= (this.x * (this.y-1))) (-1) //se ha terminado la columna
+    else pos + this.x
+  }
+  
+  //Devuelve la siguiente posicion lineal horizontal a una dada, -1 si es la última
+  def next_horizontal(pos:Int):Int = {
+    if(((pos+1) % this.x).equals(0)) (-1) //se ha terminado la fila
+    else pos+1
   }
   
   //Devuelve el entero que representa el color en una posición
@@ -73,6 +108,9 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     val dir = Console.readChar
     println(">>> Coordenadas: " + x + ", " + y + " Dirección: " + dir)
     val lista_movimiento = move(l, x, y, dir)
+    //si no se puede limpiar nada la jugada no es válida, 
+    //por lo que llamamos al método play con su mismo valor de entrada
+    if(is_clean(lista_movimiento,0,1)) {println(">>> Jugada no válida !!!");play(l)}
     val lista_limpia = clean_table(lista_movimiento)
     play(lista_limpia)
   }
