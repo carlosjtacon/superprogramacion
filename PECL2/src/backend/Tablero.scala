@@ -24,8 +24,17 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   //def get_vecinos(x:Int y:Int):List[List[Int]] =
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
-  def clean_table(l:List[Int]) = {
-    
+  def clean_table(l:List[Int]):List[Int] = {
+    if (is_clean(l)) {
+      return l
+    } else {
+      return clean_table(l)
+    }
+  }
+  
+  //Comprueba si el tablero está limpio
+  def is_clean(l:List[Int]):Boolean = {
+    return true
   }
   
   //Recibe como parámetros las coordenadas de la cara que mueve y la dirección (se calcularán las coordenadas)
@@ -40,7 +49,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   }
   
   //Método principal recursivo para las jugadas
-  def play = {
+  def play(l:List[Int]):List[Int] = {
     print
     println("\nCoordenada X: ")
     val x = Console.readInt
@@ -48,10 +57,10 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     val y = Console.readInt
     println("Direccion (N, S, E, O): ")
     val dir = Console.readChar
-    //println("Coordenadas: " + x + ", " + y + " Dirección: " + dir)
+    println("Coordenadas: " + x + ", " + y + " Dirección: " + dir)
     move(content, x, y, dir)
     clean_table(content)
-//    play --> tiene que devolver algo para ser recursivo: List (?)
+    play(content)
   }
   
   //Funciones de imprimir
