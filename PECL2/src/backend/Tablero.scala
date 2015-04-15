@@ -1,6 +1,5 @@
 package backend
 import scala.util.Random
-import com.sun.org.apache.xpath.internal.operations.Equals
 
 class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
@@ -37,10 +36,10 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def is_clean(l:List[Int], init:Int, c:Int):Boolean = {
     if (c==3) return false 
     //vertical
-    if(get_color(l,init).equals(get_color(l,next_vertical(init)))) { 
+    if(get_color(l,init) == (get_color(l,next_vertical(init)))) { 
       if(is_clean(l, next_vertical(init), c+1)) {
         //horizontal
-        if(get_color(l,init).equals(get_color(l,next_horizontal(init)))) {
+        if(get_color(l,init) == (get_color(l,next_horizontal(init)))) {
           if (is_clean(l, next_horizontal(init), c+1)) {
             return true
           } else return false
