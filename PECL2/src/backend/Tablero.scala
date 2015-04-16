@@ -5,7 +5,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
   val y = yi
   val content = populate(Nil,x*y)
-  val toChar = "ANRVMGB"
+  val toChar = "_ANRVMGB"
   def random = Random.nextInt(dificulty)
   
   def linear_coords(x:Int, y:Int):Int = y * this.x + x
@@ -49,9 +49,48 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     } else is_clean(l, next_vertical(init), 1)
   }
   
+  def bajar(l:List[Int],j:Int):List[Int] = {
+    if (j == x) l
+    else
+      bajar(bajar_fila(l,linear_coords(j,y)-x),j+1)
+  }
+  
+  def bajar_fila(l:List[Int],pos:Int):List[Int] = {
+	  //caso base: fila de arriba
+	  if (pos < x) {
+		  if (get_color(l, pos) < 0) insert(random,pos,l) else l  
+	  }
+	  //fila intermedia
+	  else {
+		  val color = get_color(l,pos)
+				  //actual vacio -> actual = superior, superior = vacio
+		  if ((color < 0)&&(get_color(l,pos-x)<0))
+      {
+        val sup = superior(l,pos-x)
+        if(sup > 0)
+			    bajar_fila(insert(color,superior(l,pos-x),insert(get_color(l,superior(l,pos-x)),pos,l)),pos-x)
+        else bajar_fila(insert(random,pos,l),pos-x)
+      }else if (color < 0)
+        bajar_fila(insert(color,pos-x,insert(get_color(l,pos-x),pos,l)),pos-x)
+      else
+        bajar_fila(l,pos-x)
+	  }
+  }
+  
+  //devuelve la pos del primer superior no nulo. Si no existe devuelve -1. Hay que pasarle pos-1
+  def superior(l:List[Int],pos:Int):Int = {
+    //primera fila valor positivo
+    if ((pos < x)&&(get_color(l,pos)>0)) pos
+    //primera fila vacia
+    else if((pos < x)&&(get_color(l,pos)<0)) -1
+    //fila intermedia 
+    else if (get_color(l,pos) < 0 )
+      superior(l,pos-x) 
+      else pos     
+  }
+  
 //  Comprueba si hay filas de al menos 3 seguidos en las columnas
   def check_vertical = {
-    
   }
   
   //  Comprueba si hay filas de al menos 3 seguidos en las columnas
@@ -95,6 +134,18 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     return insert(origenColor, destino, insert(destinoColor, origen, l))
   }
   
+  def test():List[Int] = {
+    val l =
+  1::2::3::4::
+  1::2::3::4::
+  1::(-1)::3::4::
+  1::2::3::4::
+  1::(-1)::3::4::
+  1::(-1)::3::4::Nil
+  //println(superior(l,21-x))
+  bajar(l,0)
+  }
+  
   //Método principal recursivo para las jugadas
   def play(l:List[Int]):List[Int] = {
     println("Tablero: ")
@@ -118,8 +169,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def print = print_aux(content,1)
   def print_aux(l:List[Int],n:Int):Unit = {
     if(l.isEmpty) return
-    if((n%x==0) && (n < x*y)) {println(toChar.charAt(l.head)); print_aux(l.tail,n+1)}
-    else {scala.Predef.print(toChar.charAt(l.head)+" "); print_aux(l.tail,n+1)}
+    if((n%x==0) && (n < x*y)) {println(toChar.charAt(l.head+1)); print_aux(l.tail,n+1)}
+    else {scala.Predef.print(toChar.charAt(l.head+1)+" "); print_aux(l.tail,n+1)}
   }
 
 }
