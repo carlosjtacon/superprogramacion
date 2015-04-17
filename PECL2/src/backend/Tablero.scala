@@ -25,22 +25,24 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
-    if (is_clean(l)) {
-      return l
-    } else {
-      return clean_table(l)
-    }
+    val aux = clean_aux(l,transponer(l, Nil, 0),0)
+    clean_aux(l,transponer(aux,Nil,0),0)
+  }
+  //Limpia la tabla en un sentido (horizontal o vertical)
+  def clean_aux(l:List[Int],nueva:List[Int],row:Int):List[Int] = row match{
+    case this.y => nueva
+    case _ => clean_aux(l,limpiar_linea(l,nueva,row*x),row+1)
   }
   
-  def limpiar_linea(original:List[Int],nueva:List[Int],pos:Int,max:Int):List[Int] = (max-pos) match{
+  def limpiar_linea(original:List[Int],nueva:List[Int],pos:Int):List[Int] = (x-(pos%x)) match{
     //ya se ha evaluado la 3a última
     case 2 => nueva
     //aún no se ha evaluado la 3a última
     case _ => {
       if (check_next3(original,get_color(original,pos),pos,1) == 3) {
         val nueva2 = insert(-1,pos,insert(-1,pos+1,insert(-1,pos+2,nueva)))
-        limpiar_linea(original,nueva2,pos+1,max)
-      }else limpiar_linea(original,nueva,pos+1,max)
+        limpiar_linea(original,nueva2,pos+1)
+      }else limpiar_linea(original,nueva,pos+1)
     }
   }
   
