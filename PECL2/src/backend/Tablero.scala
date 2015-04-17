@@ -25,28 +25,11 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
-    if (is_clean(l,0,1)) {
+    if (is_clean(l)) {
       return l
     } else {
       return clean_table(l)
     }
-  }
-  
-  //Comprueba si el tablero está limpio
-  def is_clean(l:List[Int], init:Int, c:Int):Boolean = {
-    if (c==3) return false 
-    //vertical
-    if(get_color(l,init) == (get_color(l,next_vertical(init)))) { 
-      if(is_clean(l, next_vertical(init), c+1)) {
-        //horizontal
-        if(get_color(l,init) == (get_color(l,next_horizontal(init)))) {
-          if (is_clean(l, next_horizontal(init), c+1)) {
-            return true
-          } else return false
-        } else is_clean(l, next_horizontal(init), 1)
-        return true
-      } else return false
-    } else is_clean(l, next_vertical(init), 1)
   }
   
   def bajar(l:List[Int],j:Int):List[Int] = {
@@ -89,11 +72,34 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       else pos     
   }
   
-//  Comprueba si hay filas de al menos 3 seguidos en las columnas
-  def check_vertical = {
+  //Comprueba si el tablero está limpio
+  def is_clean(l:List[Int]):Boolean = {
+    return (check_horizontal(l,0,1) && check_vertical(l,0,1))
   }
   
-  //  Comprueba si hay filas de al menos 3 seguidos en las columnas
+  //Comprueba si hay filas de al menos 3 seguidos en las columnas
+  def check_vertical(l:List[Int], pos:Int, c:Int):Boolean = {
+    val transpuesta = transponer(l, Nil, 0)
+    return check_horizontal(transpuesta, pos, c)
+  }
+  
+  //las filas son columnas y las columnas son filas
+  def transponer(li:List[Int], l:List[Int], n:Int):List[Int] = {
+    val siguiente = next_vertical(n)
+    println("lista: " + l + "\npos: " + n + "\nsiguiente: " + siguiente)
+    if(siguiente > 0) {
+      println(">>> pos NO es el último de la fila")
+      transponer(li, l:::List(get_color(li, n)),next_vertical(n))
+    } else if (siguiente == (-1)) {
+      println(">>> pos ES el último de la fila")
+      transponer(li, l:::List(get_color(li, n)), n - this.x * (this.y-1) + 1)
+    } else {
+      println(">>> pos ES el último del tablero, se acaba")
+      l:::List(get_color(li, n))
+    }
+  }
+  
+  //Comprueba si hay filas de al menos 3 seguidos en las columnas
   def check_horizontal(l:List[Int], pos:Int, c:Int):Boolean = {
     println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
     if(c == this.x) {
@@ -187,7 +193,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     val lista_movimiento = move(l, x, y, dir)
     //si no se puede limpiar nada la jugada no es válida, 
     //por lo que llamamos al método play con su mismo valor de entrada
-    if(is_clean(lista_movimiento,0,1)) {println(">>> Jugada no válida !!!");play(l)}
+    if(is_clean(lista_movimiento)) {println(">>> Jugada no válida !!!");play(l)}
     val lista_limpia = clean_table(lista_movimiento)
     play(lista_limpia)
   }
