@@ -32,15 +32,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       val tras = transponer(l, Nil, 0)
       val aux = clean_aux(tras,tras,0)
       val cleaned = clean_aux(l,transponer(aux,Nil,0),0)
-      println("limpia")
-      print_aux(cleaned,1)
-      println
-      println("bajada")
-      val bajada = bajar(cleaned,0)
-      print_aux(bajada,1)
-      println
-      println("------------")
-      clean_table(bajada)
+      clean_table(bajar(cleaned,0))
     }
     
   }
