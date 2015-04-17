@@ -25,7 +25,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
-    val aux = clean_aux(l,transponer(l, Nil, 0),0)
+    val tras = transponer(l, Nil, 0)
+    val aux = clean_aux(tras,tras,0)
     clean_aux(l,transponer(aux,Nil,0),0)
   }
   //Limpia la tabla en un sentido (horizontal o vertical)
