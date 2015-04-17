@@ -25,9 +25,24 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
   def clean_table(l:List[Int]):List[Int] = {
-    val tras = transponer(l, Nil, 0)
-    val aux = clean_aux(tras,tras,0)
-    clean_aux(l,transponer(aux,Nil,0),0)
+    //'bajar' introduce valores aleatorios, hay que comprobar que esos
+    //valores no se agrupen en > 2 iguales, si no hay q volver a limpiar
+    if (is_clean(l)) l
+    else{
+      val tras = transponer(l, Nil, 0)
+      val aux = clean_aux(tras,tras,0)
+      val cleaned = clean_aux(l,transponer(aux,Nil,0),0)
+      println("limpia")
+      print_aux(cleaned,1)
+      println
+      println("bajada")
+      val bajada = bajar(cleaned,0)
+      print_aux(bajada,1)
+      println
+      println("------------")
+      clean_table(bajada)
+    }
+    
   }
   //Limpia la tabla en un sentido (horizontal o vertical)
   def clean_aux(l:List[Int],nueva:List[Int],row:Int):List[Int] = row match{
@@ -56,7 +71,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def bajar(l:List[Int],j:Int):List[Int] = {
     if (j == x) l
     else
-      bajar(bajar_fila(l,linear_coords(j,y)-x),j+1)
+      bajar(bajar_fila(l,linear_coords(j,y-1)),j+1)
   }
   
   def bajar_fila(l:List[Int],pos:Int):List[Int] = {
@@ -107,45 +122,45 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   //las filas son columnas y las columnas son filas
   def transponer(li:List[Int], l:List[Int], n:Int):List[Int] = {
     val siguiente = next_vertical(n)
-    println("lista: " + l + "\npos: " + n + "\nsiguiente: " + siguiente)
+    //println("lista: " + l + "\npos: " + n + "\nsiguiente: " + siguiente)
     if(siguiente > 0) {
-      println(">>> pos NO es el último de la fila")
+      //println(">>> pos NO es el último de la fila")
       transponer(li, l:::List(get_color(li, n)),next_vertical(n))
     } else if (siguiente == (-1)) {
-      println(">>> pos ES el último de la fila")
+      //println(">>> pos ES el último de la fila")
       transponer(li, l:::List(get_color(li, n)), n - this.x * (this.y-1) + 1)
     } else {
-      println(">>> pos ES el último del tablero, se acaba")
+      //println(">>> pos ES el último del tablero, se acaba")
       l:::List(get_color(li, n))
     }
   }
   
   //Comprueba si hay filas de al menos 3 seguidos en las columnas
   def check_horizontal(l:List[Int], pos:Int, c:Int):Boolean = {
-    println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
+    //println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
     if(c == this.x) {
-      println(">>> contador llega a 3 --> devuelve false")
+      //println(">>> contador llega a 3 --> devuelve false")
       return false
     }
     val siguiente = next_horizontal(pos)
-    println(">>> >>> siguiente: " + siguiente)
+    //println(">>> >>> siguiente: " + siguiente)
     if(siguiente > 0) {
       //comprueba el siguiente
-      println(">>> pos NO es el último de la fila")
+      //println(">>> pos NO es el último de la fila")
       if(get_color(l,pos) == get_color(l,siguiente)) {
-        println(">>> el color ES igual que el siguiente. pasamos valor c = " + (c+1))
+        //println(">>> el color ES igual que el siguiente. pasamos valor c = " + (c+1))
         if (!check_horizontal(l, siguiente, c+1)) return false else return true
       } else {
-        println(">>> el color NO es igual que el siguiente. pasamos valor c = 1")
+        //println(">>> el color NO es igual que el siguiente. pasamos valor c = 1")
         if (!check_horizontal(l, siguiente, 1)) return false else return true
       }
     } else if(siguiente == (-1)){
       //cambia a la siguiente fila
-      println(">>> pos ES el último de la fila. pasamos pos+1 y c = 1")
+      //println(">>> pos ES el último de la fila. pasamos pos+1 y c = 1")
       if (!check_horizontal(l, pos+1, 1)) return false else return true
     } else {
       //fin del tablero
-      println(">>> pos ES el último del tablero, se acaba --> devuelve false")
+      //println(">>> pos ES el último del tablero, se acaba --> devuelve false")
       return true
     }
   } 
@@ -188,18 +203,6 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     return insert(origenColor, destino, insert(destinoColor, origen, l))
   }
   
-  def test():List[Int] = {
-    val l =
-  1::2::3::4::
-  1::2::3::4::
-  1::(-1)::3::4::
-  1::2::3::4::
-  1::(-1)::3::4::
-  1::(-1)::3::4::Nil
-  //println(superior(l,21-x))
-  bajar(l,0)
-  }
-  
   //Método principal recursivo para las jugadas
   def play(l:List[Int]):List[Int] = {
     println("Tablero: ")
@@ -215,8 +218,10 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     //si no se puede limpiar nada la jugada no es válida, 
     //por lo que llamamos al método play con su mismo valor de entrada
     if(is_clean(lista_movimiento)) {println(">>> Jugada no válida !!!");play(l)}
-    val lista_limpia = clean_table(lista_movimiento)
-    play(lista_limpia)
+    else{
+      val lista_limpia = clean_table(lista_movimiento)
+      play(lista_limpia)
+    }
   }
   
   //Funciones de imprimir
