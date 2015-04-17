@@ -32,6 +32,24 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     }
   }
   
+  def limpiar_linea(original:List[Int],nueva:List[Int],pos:Int,max:Int):List[Int] = (max-pos) match{
+    //ya se ha evaluado la 3a última
+    case 2 => nueva
+    //aún no se ha evaluado la 3a última
+    case _ => {
+      if (check_next3(original,get_color(original,pos),pos,1) == 3) {
+        val nueva2 = insert(-1,pos,insert(-1,pos+1,insert(-1,pos+2,nueva)))
+        limpiar_linea(original,nueva2,pos+1,max)
+      }else limpiar_linea(original,nueva,pos+1,max)
+    }
+  }
+  
+  def check_next3(l:List[Int],col:Int,pos:Int,c:Int):Int = c match{
+    case 3 => if (get_color(l,pos) == col) 1 else 0
+    case _ => if (get_color(l,pos) == col) 1 + check_next3(l,get_color(l,pos),pos+1,c+1)
+              else 0 + check_next3(l,get_color(l,pos),pos+1,c+1)      
+  }
+  
   def bajar(l:List[Int],j:Int):List[Int] = {
     if (j == x) l
     else
