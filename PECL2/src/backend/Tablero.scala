@@ -138,7 +138,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   //Comprueba si hay filas de al menos 3 seguidos en las columnas
   def check_horizontal(l:List[Int], pos:Int, c:Int):Boolean = {
     //println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
-    if(c == this.x) {
+    if(c == 3) {
       //println(">>> contador llega a 3 --> devuelve false")
       return false
     }
