@@ -94,19 +94,46 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   }
   
   //  Comprueba si hay filas de al menos 3 seguidos en las columnas
-  def check_horizontal = {
-    
-  }
+  def check_horizontal(l:List[Int], pos:Int, c:Int):Boolean = {
+    println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
+    if(c == this.x) {
+      println(">>> contador llega a 3 --> devuelve false")
+      return false
+    }
+    val siguiente = next_horizontal(pos)
+    println(">>> >>> siguiente: " + siguiente)
+    if(siguiente > 0) {
+      //comprueba el siguiente
+      println(">>> pos NO es el último de la fila")
+      if(get_color(l,pos) == get_color(l,siguiente)) {
+        println(">>> el color ES igual que el siguiente. pasamos valor c = " + (c+1))
+        if (!check_horizontal(l, siguiente, c+1)) return false else return true
+      } else {
+        println(">>> el color NO es igual que el siguiente. pasamos valor c = 1")
+        if (!check_horizontal(l, siguiente, 1)) return false else return true
+      }
+    } else if(siguiente == (-1)){
+      //cambia a la siguiente fila
+      println(">>> pos ES el último de la fila. pasamos pos+1 y c = 1")
+      if (!check_horizontal(l, pos+1, 1)) return false else return true
+    } else {
+      //fin del tablero
+      println(">>> pos ES el último del tablero, se acaba --> devuelve false")
+      return true
+    }
+  } 
   
   //Devuelve la siguiente posicion lineal vertical a una dada, -1 si es la última
   def next_vertical(pos:Int):Int = {
-    if(pos >= (this.x * (this.y-1))) (-1) //se ha terminado la columna
+    if ((pos+1) == (this.x*this.y)) (-2) //se ha terminado el tablero
+    else if(pos >= (this.x * (this.y-1))) (-1) //se ha terminado la columna
     else pos + this.x
   }
   
   //Devuelve la siguiente posicion lineal horizontal a una dada, -1 si es la última
   def next_horizontal(pos:Int):Int = {
-    if(((pos+1) % this.x).equals(0)) (-1) //se ha terminado la fila
+    if ((pos+1) == (this.x*this.y)) (-2) //se ha terminado el tablero
+    else if(((pos+1) % this.x) == 0) (-1) //se ha terminado la fila
     else pos+1
   }
   
