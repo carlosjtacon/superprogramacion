@@ -31,27 +31,38 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     else if (pos==0) col::l.tail
     else l.head::insert(col,(pos-1),l.tail)
   }
+  
+  def puntuar(l:List[Int]):Int = {
+    if (l.isEmpty) 0
+    else {
+      if (l.head == -1) 1 + puntuar(l.tail)
+      else puntuar(l.tail)
+    }    
+  }
 
   //Limpia la tabla para que no haya 3 caras del mismo color seguidas
-  def clean_table(l:List[Int]):List[Int] = {
+  def clean_table(l:List[Int],puntuacion:Int):(List[Int],Int) = {
     //'bajar' introduce valores aleatorios, hay que comprobar que esos
     //valores no se agrupen en > 2 iguales, si no hay q volver a limpiar
-    if (is_clean(l)) l
+    if (is_clean(l)) (l,10*puntuacion)
     else{
       val tras = transponer(l, Nil, 0)
       val aux = clean_aux(tras,tras,0)
       val cleaned = clean_aux(l,transponer(aux,Nil,0),0)
-      clean_table(bajar(cleaned,0))
-    }
-    
+      val j_pun = puntuar(cleaned)
+      clean_table(bajar(cleaned,0),puntuacion+j_pun)
+    }    
   }
+  //Limpia la tabla en un sentido (horizontal o vertical)
   //Limpia la tabla en un sentido (horizontal o vertical)
   def clean_aux(l:List[Int],nueva:List[Int],row:Int):List[Int] = row match{
     case this.y => nueva
     case _ => clean_aux(l,limpiar_linea(l,nueva,row*x),row+1)
   }
   
-  def limpiar_linea(original:List[Int],nueva:List[Int],pos:Int):List[Int] = (x-(pos%x)) match{
+  //pone a -1 las casillas de una línea que tengan 2 o más vecinos iguales
+  //devuelve la lista con la linea 'limpia' y el número de bolas eliminadas
+ def limpiar_linea(original:List[Int],nueva:List[Int],pos:Int):List[Int] = (x-(pos%x)) match{
     //ya se ha evaluado la 3a última
     case 2 => nueva
     //aún no se ha evaluado la 3a última
@@ -62,7 +73,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       }else limpiar_linea(original,nueva,pos+1)
     }
   }
-  
+ 
+  //calcula el número de iguales de las siguientes 3 casillas
   def check_next3(l:List[Int],col:Int,pos:Int,c:Int):Int = c match{
     case 3 => if (get_color(l,pos) == col) 1 else 0
     case _ => if (get_color(l,pos) == col) 1 + check_next3(l,get_color(l,pos),pos+1,c+1)
@@ -205,24 +217,32 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   }
   
   //Método principal recursivo para las jugadas
-  def play(l:List[Int]):List[Int] = {
-    println("Tablero: ")
-    print_aux(l,1)
-    println("\nCoordenada X: ")
-    val x = Console.readInt
-    println("Coordenada Y: ")
-    val y = Console.readInt
-    println("Direccion (N, S, E, O): ")
-    val dir = Console.readChar
-    println(">>> Coordenadas: " + x + ", " + y + " Dirección: " + dir)
-    val lista_movimiento = move(l, x, y, dir)
-    //si no se puede limpiar nada la jugada no es válida, 
-    //por lo que llamamos al método play con su mismo valor de entrada
-    if(is_clean(lista_movimiento)) {println(">>> Jugada no válida !!!");play(l)}
-    else{
-      val lista_limpia = clean_table(lista_movimiento)
-      play(lista_limpia)
-    }
+  def play(l:List[Int],m:Int,p:Int):Int = {
+    if (m == 0) p
+    else try{
+      Thread.sleep(1)
+      println("Tablero: ")
+      print_aux(l,1)
+      println("\nPuntos acumulados: " + p)
+      println("\nCoordenada X: ")
+      val x = io.StdIn.readInt
+      Thread.sleep(1)
+      println("Coordenada Y: ")
+      val y = io.StdIn.readInt
+      Thread.sleep(1)
+      println("Direccion (N, S, E, O): ")
+      val dir = io.StdIn.readChar.toUpper
+      Thread.sleep(1)
+      println(">>> Coordenadas: " + x + ", " + y + " Dirección: " + dir)
+      val lista_movimiento = move(l, x, y, dir)
+      //si no se puede limpiar nada la jugada no es válida, 
+      //por lo que llamamos al método play con su mismo valor de entrada
+      if(is_clean(lista_movimiento)) {println(">>> Jugada no válida !!!");play(l,m,p)}
+      else{
+        val (lista_limpia,np) = clean_table(lista_movimiento,p)
+        play(lista_limpia,m-1,p+np)
+      }
+    } catch {case e: InterruptedException => println("Fin del juego"); return 1} 
   }
   
   //Funciones de imprimir
