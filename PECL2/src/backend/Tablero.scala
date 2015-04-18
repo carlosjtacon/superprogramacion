@@ -1,5 +1,7 @@
 package backend
 import scala.util.Random
+import scala.collection.JavaConverters._
+
 
 class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
@@ -9,6 +11,13 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def random = Random.nextInt(dificulty)
   
   def linear_coords(x:Int, y:Int):Int = y * this.x + x
+
+  
+  def getContent = content
+  def getListAsJava(l:List[Int]) = {
+    l.asJava
+  }
+
   
   //Crea un tablero con datos aleatorios
   def populate(l:List[Int],n:Int):List[Int] = n match {
