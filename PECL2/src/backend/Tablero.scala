@@ -32,6 +32,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     else l.head::insert(col,(pos-1),l.tail)
   }
   
+  //recorre la lista y cuenta las casillas borradas (-1)
   def puntuar(l:List[Int]):Int = {
     if (l.isEmpty) 0
     else {
@@ -44,16 +45,18 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   def clean_table(l:List[Int],puntuacion:Int):(List[Int],Int) = {
     //'bajar' introduce valores aleatorios, hay que comprobar que esos
     //valores no se agrupen en > 2 iguales, si no hay q volver a limpiar
-    if (is_clean(l)) (l,10*puntuacion)
+    if (is_clean(l)) (l,puntuacion)
     else{
+      //limpiar verticalmente
       val tras = transponer(l, Nil, 0)
       val aux = clean_aux(tras,tras,0)
+      //limpiar horizontalmente
       val cleaned = clean_aux(l,transponer(aux,Nil,0),0)
       val j_pun = puntuar(cleaned)
-      clean_table(bajar(cleaned,0),puntuacion+j_pun)
+      clean_table(bajar(cleaned,0),puntuacion+j_pun*10)
     }    
   }
-  //Limpia la tabla en un sentido (horizontal o vertical)
+  
   //Limpia la tabla en un sentido (horizontal o vertical)
   def clean_aux(l:List[Int],nueva:List[Int],row:Int):List[Int] = row match{
     case this.y => nueva
@@ -81,12 +84,13 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
               else 0 + check_next3(l,get_color(l,pos),pos+1,c+1)      
   }
   
+  //hace caer las casillas no vacías de todo el tablero
   def bajar(l:List[Int],j:Int):List[Int] = {
     if (j == x) l
     else
       bajar(bajar_fila(l,linear_coords(j,y-1)),j+1)
   }
-  
+  //hace caer las casillas no vacías de una columna
   def bajar_fila(l:List[Int],pos:Int):List[Int] = {
 	  //caso base: fila de arriba
 	  if (pos < x) {
@@ -218,13 +222,17 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   
   //Método principal recursivo para las jugadas
   def play(l:List[Int],m:Int,p:Int):Int = {
-    if (m == 0) p
+    if (m == 0){
+      println("Tablero:")
+      print_aux(l,1)
+      p
+    }      
     else try{
       Thread.sleep(1)
       println("Tablero: ")
       print_aux(l,1)
       println("\nPuntos acumulados: " + p)
-      println("\nCoordenada X: ")
+      println("Coordenada X: ")
       val x = io.StdIn.readInt
       Thread.sleep(1)
       println("Coordenada Y: ")
@@ -242,7 +250,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
         val (lista_limpia,np) = clean_table(lista_movimiento,p)
         play(lista_limpia,m-1,p+np)
       }
-    } catch {case e: InterruptedException => println("Fin del juego"); return 1} 
+    } catch{ case e: InterruptedException => return p}
+      
   }
   
   //Funciones de imprimir
