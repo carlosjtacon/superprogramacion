@@ -21,7 +21,7 @@ public final class AppGUI {
 	private int puntuacion;
 	private String change_aux;
 	static Tablero tab;
-	private List<Integer> nueva_lista;
+
 
 	/**
 	 * Launch the application.
@@ -121,20 +121,28 @@ public final class AppGUI {
 							change_aux = "";
 						} else {
 							System.out.println("Segundo boton");
-							System.out.println("\n"+nueva_lista);
-							buttons[getPosicion(change_aux)].setToolTipText(b.getToolTipText());
-							buttons[getPosicion(b.getToolTipText())].setToolTipText(change_aux);
+							List<Integer> lista_inicial = listaBotones();
+							buttons[getPosicion(change_aux)].setToolTipText(getPosicion(change_aux) +","+ getColor(b.getToolTipText()));
+							buttons[getPosicion(b.getToolTipText())].setToolTipText(getPosicion(b.getToolTipText()) +","+ getColor(change_aux));
 							change_aux = "";
-							nueva_lista = tab.play_GUI(listaBotones());
-							System.out.println("\n"+nueva_lista);
-							for (int i=0; i<8; i++) {
-								for(int j=0; j<8; j++) {
-									buttons[i*8+j].setIcon(new ImageIcon("resources/"+ nueva_lista.get(i*8+j+1).toString() +".png"));
+							List<Integer> vieja_lista = listaBotones();
+							List<Integer> nueva_lista = tab.play_GUI(vieja_lista);
+							if(nueva_lista!=null){
+								for (int i=0; i<8; i++) {
+									for(int j=0; j<8; j++) {
+										buttons[i*8+j].setIcon(new ImageIcon("resources/"+ nueva_lista.get(i*8+j+1).toString() +".png"));
+										buttons[i*8+j].setToolTipText(String.valueOf(i*8+j) +","+ nueva_lista.get(i*8+j+1).toString()); 
+									}
 								}
+								puntuacion += nueva_lista.get(0);
 							}
-							puntuacion += nueva_lista.get(0);
+							
 							lblPuntuacion.setText("Puntuación: " + puntuacion);
-							System.out.println(listaBotones());
+							List<Integer> lista_final = listaBotones();
+							System.out.println("\nlista_inicial: "+lista_inicial);
+							System.out.println("vieja_lista: "+vieja_lista);
+							System.out.println("nueva_lista: "+nueva_lista);
+							System.out.println("lista_final: "+lista_final);
 						}
 					}
 				});

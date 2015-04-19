@@ -266,7 +266,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     
     val scalaGrid = toIntList(grid)
     
-    if (is_clean(scalaGrid)) return grid
+    if (is_clean(scalaGrid)) return null
     else {
       val (l,p) = play_GUI_aux(toIntList(grid),0)
       toIntegerList(p::l)
