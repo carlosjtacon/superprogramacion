@@ -1,6 +1,9 @@
 package backend
+
 import scala.util.Random
-import scala.collection.JavaConverters._
+import scala.collection.JavaConversions._
+
+import frontend.AppGUI
 
 
 class Tablero(xi:Int,yi:Int,dificulty:Int) {
@@ -12,12 +15,9 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   
   def linear_coords(x:Int, y:Int):Int = y * this.x + x
 
-  
   def getContent = content
-  def getListAsJava(l:List[Int]) = {
-    l.asJava
-  }
-
+  implicit def toIntegerList( lst: List[Int] ) = seqAsJavaList( lst.map( i => i:java.lang.Integer ) )
+  
   
   //Crea un tablero con datos aleatorios
   def populate(l:List[Int],n:Int):List[Int] = n match {
@@ -230,12 +230,20 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     if (m == 0){
       println("\n\nTablero:")
       print_aux(l,1)
+      
+      val listaJava: java.util.List[Integer] = toIntegerList(l)
+      AppGUI.refrescar(listaJava)
+      
       p
     }      
     else try{
       Thread.sleep(1)
       println("\n\nTablero: ")
       print_aux(l,1)
+      
+      val listaJava: java.util.List[Integer] = toIntegerList(l)
+      AppGUI.refrescar(listaJava)
+      
       println("\nPuntos acumulados: " + p)
       println("Coordenada X: ")
       val x = io.StdIn.readInt

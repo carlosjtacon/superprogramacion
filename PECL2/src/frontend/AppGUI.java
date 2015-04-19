@@ -1,6 +1,8 @@
 package frontend;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -8,47 +10,49 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import backend.*;
+public final class AppGUI {
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class App {
-
-	private JFrame frmStarCrush;
-	private JButton buttons[];
-	private int change_aux;
+	private static JFrame frmStarCrush;
+	public static JButton buttons[];
+	private static int change_aux;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void startapp(List<Integer> tab) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					App window = new App();
-					window.frmStarCrush.setVisible(true);
+					new AppGUI(tab);
+					AppGUI.frmStarCrush.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+	
+	public static void refrescar(List<Integer> tab) {
+		System.out.println(tab);
+		for (int i=0; i<8; i++) {
+			for(int j=0; j<8; j++) {
+				buttons[i*8+j].setIcon(new ImageIcon("resources/"+ tab.get(i*8+j).toString() +".png"));
+			}
+		}
+	}
 
 	/**
 	 * Create the application.
 	 */
-	public App() {
-		Tablero tab = new Tablero(8,8,7);
-		List<Object> tablist = tab.getListAsJava(tab.clean_table(tab.getContent()));
-		System.out.println(tablist.toString());
-		initialize(tablist);
+	public AppGUI(List<Integer> tab) {
+//		System.out.println(tab.toString());
+		initialize(tab);
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(List<Object> tablist) {
+	private static void initialize(List<Integer> tablist) {
 		frmStarCrush = new JFrame();
 		frmStarCrush.setTitle("Star Crush");
 		frmStarCrush.setResizable(false);
