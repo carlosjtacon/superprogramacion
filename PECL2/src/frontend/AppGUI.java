@@ -8,20 +8,17 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
 
 import backend.Tablero;
-
-import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSpinner;
 
 public final class AppGUI {
 	
 	private JFrame frmStarCrush;
 	private JFrame frmInit;
+	private JFrame frmFinal;
 
 	private JButton buttons[];
 	private JLabel lblPuntuacion;
@@ -94,6 +91,17 @@ public final class AppGUI {
 	 */
 	private void initialize(List<Integer> tablist) {
 		
+		frmFinal = new JFrame();
+		frmFinal.setTitle("Star Crush");
+		frmFinal.setResizable(false);
+		frmFinal.setBounds(100, 100, 365, 430);
+		frmFinal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmFinal.getContentPane().setLayout(null);
+		
+		JLabel lblPuntos = new JLabel("Puntos:");
+		lblPuntos.setBounds(42, 4, 300, 16);
+		frmFinal.getContentPane().add(lblPuntos);
+		
 		frmInit = new JFrame();
 		frmInit.setTitle("Star Crush");
 		frmInit.setResizable(false);
@@ -109,12 +117,16 @@ public final class AppGUI {
 		spinner.setBounds(42, 172, 200, 50);
 		frmInit.getContentPane().add(spinner);
 		
+		JLabel lblTurnos = new JLabel("Turnos");
+		lblTurnos.setBounds(298, 386, 61, 16);
+		
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmInit.setVisible(false);
 				frmStarCrush.setVisible(true);
 				turnos = (int) spinner.getValue();
+				lblTurnos.setText("Turnos: "+turnos);
 			}
 		});
 		btnOk.setBounds(42, 263, 117, 29);
@@ -133,6 +145,8 @@ public final class AppGUI {
 		frmStarCrush.getContentPane().add(lblPuntuacion);
 		
 		puntuacion=0;
+		
+		frmStarCrush.getContentPane().add(lblTurnos);
 		
 		images = new ImageIcon[7];
 		for (int i = 0; i < 7; i++) {
@@ -195,12 +209,17 @@ public final class AppGUI {
 							System.out.println("lista_final: "+lista_final);
 							turnos--;
 							System.out.println("Turnos:"+turnos);
+							lblTurnos.setText("Turnos: "+turnos);
 							if (turnos == 0) {
-								try{
-								Thread.sleep(1000);
-								} catch(InterruptedException ex) {}
-								System.exit(0);
-								}
+								frmStarCrush.setVisible(false);
+								lblPuntos.setText("Puntuacion Final: "+puntuacion);
+								frmFinal.setVisible(true);
+							}
+//								try{
+//								Thread.sleep(1000);
+//								} catch(InterruptedException ex) {}
+//								System.exit(0);
+//								}
 						}
 					}
 				});
