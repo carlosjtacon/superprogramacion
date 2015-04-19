@@ -20,7 +20,9 @@ public final class AppGUI {
 	private JLabel lblPuntuacion;
 	private int puntuacion;
 	private String change_aux;
-	static Tablero tab;
+	private static Tablero tab;
+	
+	private ImageIcon images[];
 
 
 	/**
@@ -96,13 +98,18 @@ public final class AppGUI {
 		frmStarCrush.getContentPane().add(lblPuntuacion);
 		puntuacion=0;
 		
+		images = new ImageIcon[7];
+		for (int i = 0; i < 7; i++) {
+			images[i] = new ImageIcon("resources/"+i+".png");
+		}
+		
 		change_aux = "";
 		int[] pos = new int[] {5, 50, 95, 140, 185, 230, 275, 320};
 		buttons = new JButton[tablist.size()];
 		for (int i=0; i<8; i++) {
 			for(int j=0; j<8; j++) {
 				buttons[i*8+j] = new JButton();
-				buttons[i*8+j].setIcon(new ImageIcon("resources/"+ tablist.get(i*8+j).toString() +".png"));
+				buttons[i*8+j].setIcon(images[tablist.get(i*8+j)]);
 				buttons[i*8+j].setToolTipText(String.valueOf(i*8+j) +","+ tablist.get(i*8+j).toString()); 
 				buttons[i*8+j].setOpaque(false);
 				buttons[i*8+j].setContentAreaFilled(false);
@@ -125,7 +132,6 @@ public final class AppGUI {
 							int destino = getPosicion(b.getToolTipText());
 							int origen_c = getColor(change_aux);
 							int destino_c = getColor(b.getToolTipText());
-//							System.out.println("Origen: "+ origen + "\nDestino: "+ destino);
 							List<Integer> lista_inicial = listaBotones();
 							buttons[origen].setToolTipText(origen +","+ destino_c);
 							buttons[destino].setToolTipText(destino +","+ origen_c);
@@ -135,7 +141,7 @@ public final class AppGUI {
 							if(nueva_lista!=null){
 								for (int i=0; i<8; i++) {
 									for(int j=0; j<8; j++) {
-										buttons[i*8+j].setIcon(new ImageIcon("resources/"+ nueva_lista.get(i*8+j+1).toString() +".png"));
+										buttons[i*8+j].setIcon(images[nueva_lista.get(i*8+j+1)]);
 										buttons[i*8+j].setToolTipText(String.valueOf(i*8+j) +","+ nueva_lista.get(i*8+j+1).toString()); 
 									}
 								}
