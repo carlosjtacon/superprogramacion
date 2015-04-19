@@ -14,11 +14,16 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val toChar = "_0123456"
   def random = Random.nextInt(dificulty)
   
+  //cambio de coordenadas x,y a una coordenada lineal
   def linear_coords(x:Int, y:Int):Int = y * this.x + x
 
+  //devuelve el contenido de la tabla limpio
   def get_clean_content:List[Int] = clean_table(content, 0)._1
-  implicit def toIntegerList( lst: List[Int] ) = seqAsJavaList( lst.map( i => i:java.lang.Integer ) )
   
+  //Convierte una List[Int] de scala a una Lista de Java [Integer]
+  implicit def toIntegerList( lst: List[Int] ) = seqAsJavaList( lst.map( i => i:java.lang.Integer ) )
+  //Convierte una Lista de Java [Integer] a una List[Int] de scala
+  implicit def toIntList( lst: java.util.List[Integer] ):List[Int] = lst.asScala.map { i => i:Int }.toList
   
   //Crea un tablero con datos aleatorios
   def populate(l:List[Int],n:Int):List[Int] = n match {
@@ -160,15 +165,13 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   
   //Comprueba si hay filas de al menos 3 seguidos en las columnas
   def check_horizontal(l:List[Int], pos:Int, c:Int):Boolean = {
-    //println(">>> >>> list: " + l + "\n>>> >>> pos: " + pos + "\n>>> >>> c: " + c)
     if(c == 3) {
       //println(">>> contador llega a 3 --> devuelve false")
       return false
     }
     val siguiente = next_horizontal(pos)
-    //println(">>> >>> siguiente: " + siguiente)
+    //comprueba el siguiente
     if(siguiente > 0) {
-      //comprueba el siguiente
       //println(">>> pos NO es el último de la fila")
       if(get_color(l,pos) == get_color(l,siguiente)) {
         //println(">>> el color ES igual que el siguiente. pasamos valor c = " + (c+1))
@@ -228,12 +231,14 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   
   //Método principal recursivo para las jugadas
   def play(l:List[Int],m:Int,p:Int):Int = {
+    //se comprueba si quedan movimietos
     if (m == 0){
       println("\n\nTablero:")
       print_aux(l,1)
       p
     }      
     else try{
+      //sleep para captar la interrupción
       Thread.sleep(1)
       println("\n\nTablero: ")
       print_aux(l,1)
@@ -260,8 +265,8 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       
   }
   
-  implicit def toIntList( lst: java.util.List[Integer] ):List[Int] = lst.asScala.map { i => i:Int }.toList
-  
+  //Método principal que se llama desde la GUI en JAVA, recibe una lista con el movimiento hecho y devuelve el tablero limpio resultatnte, 
+  //y los puntos (en la primera posicion de la lista)
   def play_GUI(grid:java.util.List[java.lang.Integer]):java.util.List[Integer] = {
     
     val scalaGrid = toIntList(grid)
@@ -273,6 +278,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     }
   }
   
+  //metodo auxiliar recursivo para GUI
   def play_GUI_aux(l:List[Int],p:Int):(List[Int],Int) = {      
     if(is_clean(l)) return (l,p)
     else{
@@ -282,7 +288,6 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   }
   
   //Funciones de imprimir
-  def print = print_aux(content,1)
   def print_aux(l:List[Int],n:Int):Unit = {
     if(l.isEmpty) return
     if((n%x==0) && (n < x*y)) {println(toChar.charAt(l.head+1)); print_aux(l.tail,n+1)}

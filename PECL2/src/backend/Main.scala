@@ -26,6 +26,7 @@ object Main extends App{
       generar_parametros(r)
 	}
   
+  //la dificultad se corresponde con el número de colores diferentes, dependiendo si es facil(f), medio(m) o dificil(d)
   def get_dificultad:Int = {
     print("elige dificultad [f|m|d]: ")
     val i = io.StdIn.readChar
@@ -40,6 +41,7 @@ object Main extends App{
   val dif = get_dificultad
   val (time,mov) = generar_parametros
 
+  //crea un nuevo hilo que ejecuta el juego
 	val player = new Thread {
 		override def run {
 			val tab = new Tablero(8,8,dif)
@@ -53,6 +55,7 @@ object Main extends App{
 	}
   player.start
   
+  //el hilo principal ejecuta el temporizador e interrumpe el juego cuando llega a 0
   if (time > 0){
     Thread.sleep(time*1000)
     player.interrupt()
