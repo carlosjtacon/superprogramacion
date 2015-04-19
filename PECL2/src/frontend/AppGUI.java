@@ -8,14 +8,21 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import backend.Tablero;
+
 import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JSpinner;
 
 public final class AppGUI {
+	
+	private JFrame frmStarCrush;
+	private JFrame frmInit;
 
-	private  JFrame frmStarCrush;
 	private JButton buttons[];
 	private JLabel lblPuntuacion;
 	private int puntuacion;
@@ -35,7 +42,7 @@ public final class AppGUI {
 					tab = new Tablero(8,8,7);
 					System.out.println("Preparación del tablero inicial: ");
 					AppGUI window = new AppGUI(tab.toIntegerList(tab.get_clean_content()));
-					window.frmStarCrush.setVisible(true);
+					window.frmInit.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,6 +93,40 @@ public final class AppGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(List<Integer> tablist) {
+		frmInit = new JFrame();
+		frmInit.setTitle("Star Crush");
+		frmInit.setResizable(false);
+		frmInit.setBounds(100, 100, 365, 430);
+		frmInit.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frmInit.getContentPane().setLayout(null);		
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"3", "5", "7"}));
+		comboBox.setBounds(42, 64, 200, 50);
+		frmInit.getContentPane().add(comboBox);
+		
+		JLabel lblDificultad = new JLabel("Dificultad:");
+		lblDificultad.setBounds(42, 36, 90, 16);
+		frmInit.getContentPane().add(lblDificultad);
+		
+		JLabel lblMovimientos = new JLabel("Movimientos:");
+		lblMovimientos.setBounds(42, 139, 90, 16);
+		frmInit.getContentPane().add(lblMovimientos);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(42, 172, 200, 50);
+		frmInit.getContentPane().add(spinner);
+		
+		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmStarCrush.setVisible(true);
+			}
+		});
+		btnOk.setBounds(42, 263, 117, 29);
+		frmInit.getContentPane().add(btnOk);
+		
+		
 		frmStarCrush = new JFrame();
 		frmStarCrush.setTitle("Star Crush");
 		frmStarCrush.setResizable(false);
@@ -96,6 +137,7 @@ public final class AppGUI {
 		lblPuntuacion = new JLabel("Puntuación: 0");
 		lblPuntuacion.setBounds(6, 386, 353, 16);
 		frmStarCrush.getContentPane().add(lblPuntuacion);
+		
 		puntuacion=0;
 		
 		images = new ImageIcon[7];
