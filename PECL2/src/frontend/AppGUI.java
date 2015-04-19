@@ -28,7 +28,7 @@ public final class AppGUI {
 	private int puntuacion;
 	private String change_aux;
 	private static Tablero tab;
-	
+	private int turnos;
 	private ImageIcon images[];
 
 
@@ -93,21 +93,13 @@ public final class AppGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(List<Integer> tablist) {
+		
 		frmInit = new JFrame();
 		frmInit.setTitle("Star Crush");
 		frmInit.setResizable(false);
 		frmInit.setBounds(100, 100, 365, 430);
 		frmInit.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frmInit.getContentPane().setLayout(null);		
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"3", "5", "7"}));
-		comboBox.setBounds(42, 64, 200, 50);
-		frmInit.getContentPane().add(comboBox);
-		
-		JLabel lblDificultad = new JLabel("Dificultad:");
-		lblDificultad.setBounds(42, 36, 90, 16);
-		frmInit.getContentPane().add(lblDificultad);
 		
 		JLabel lblMovimientos = new JLabel("Movimientos:");
 		lblMovimientos.setBounds(42, 139, 90, 16);
@@ -120,7 +112,9 @@ public final class AppGUI {
 		JButton btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frmInit.setVisible(false);
 				frmStarCrush.setVisible(true);
+				turnos = (int) spinner.getValue();
 			}
 		});
 		btnOk.setBounds(42, 263, 117, 29);
@@ -199,6 +193,14 @@ public final class AppGUI {
 							System.out.println("vieja_lista: "+vieja_lista);
 							System.out.println("nueva_lista: "+nueva_lista);
 							System.out.println("lista_final: "+lista_final);
+							turnos--;
+							System.out.println("Turnos:"+turnos);
+							if (turnos == 0) {
+								try{
+								Thread.sleep(1000);
+								} catch(InterruptedException ex) {}
+								System.exit(0);
+								}
 						}
 					}
 				});
