@@ -2,6 +2,7 @@ package backend
 
 import scala.util.Random
 import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 import frontend.AppGUI
 
@@ -265,6 +266,27 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       }
     } catch{ case e: InterruptedException => return p}
       
+  }
+  
+  implicit def toIntList( lst: java.util.List[Integer] ):List[Int] = lst.asScala.map { i => i:Int }.toList
+  
+  def play_GUI(grid:java.util.List[java.lang.Integer]):java.util.List[Integer] = {
+    
+    val scalaGrid = toIntList(grid)
+    
+    if (is_clean(scalaGrid)) return null
+    else {
+      val (l,p) = play_GUI_aux(toIntList(grid),0)
+      toIntegerList(p::l)
+    }
+  }
+  
+  def play_GUI_aux(l:List[Int],p:Int):(List[Int],Int) = {      
+    if(is_clean(l)) return (l,p)
+    else{
+      val (lista_limpia,np) = clean_table(l,p)
+      play_GUI_aux(lista_limpia,p+np)
+    }      
   }
   
   //Funciones de imprimir
