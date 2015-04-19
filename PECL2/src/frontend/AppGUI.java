@@ -123,12 +123,12 @@ public final class AppGUI {
 							System.out.println("Segundo boton");
 							int origen = getPosicion(change_aux);
 							int destino = getPosicion(b.getToolTipText());
+							int origen_c = getColor(change_aux);
+							int destino_c = getColor(b.getToolTipText());
 //							System.out.println("Origen: "+ origen + "\nDestino: "+ destino);
 							List<Integer> lista_inicial = listaBotones();
-							buttons[getPosicion(change_aux)].setToolTipText(getPosicion(change_aux) +","+ getColor(b.getToolTipText()));
-//							buttons[getPosicion(change_aux)].setIcon(new ImageIcon("resources/"+ getColor(b.getToolTipText()) +".png"));
-							buttons[getPosicion(b.getToolTipText())].setToolTipText(getPosicion(b.getToolTipText()) +","+ getColor(change_aux));
-//							buttons[getPosicion(b.getToolTipText())].setIcon(new ImageIcon("resources/"+ getColor(change_aux) +".png"));
+							buttons[origen].setToolTipText(origen +","+ destino_c);
+							buttons[destino].setToolTipText(destino +","+ origen_c);
 							
 							List<Integer> vieja_lista = listaBotones();
 							List<Integer> nueva_lista = tab.play_GUI(vieja_lista);
@@ -141,8 +141,8 @@ public final class AppGUI {
 								}
 								puntuacion += nueva_lista.get(0);
 							} else {
-								buttons[getPosicion(change_aux)].setToolTipText(getPosicion(change_aux) +","+ getColor(change_aux));
-								buttons[getPosicion(b.getToolTipText())].setToolTipText(getPosicion(b.getToolTipText()) +","+ getColor(b.getToolTipText()));
+								buttons[origen].setToolTipText(origen +","+ origen_c);
+								buttons[destino].setToolTipText(destino +","+ destino_c);
 							}
 							change_aux = "";
 							lblPuntuacion.setText("Puntuación: " + puntuacion);
