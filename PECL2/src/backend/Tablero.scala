@@ -11,12 +11,12 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
   val x = xi
   val y = yi
   val content = populate(Nil,x*y)
-  val toChar = "_ANRVMGB"
+  val toChar = "_0123456"
   def random = Random.nextInt(dificulty)
   
   def linear_coords(x:Int, y:Int):Int = y * this.x + x
 
-  def getContent = content
+  def get_clean_content:List[Int] = clean_table(content, 0)._1
   implicit def toIntegerList( lst: List[Int] ) = seqAsJavaList( lst.map( i => i:java.lang.Integer ) )
   
   
@@ -231,20 +231,12 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     if (m == 0){
       println("\n\nTablero:")
       print_aux(l,1)
-      
-      val listaJava: java.util.List[Integer] = toIntegerList(l)
-      AppGUI.refrescar(listaJava)
-      
       p
     }      
     else try{
       Thread.sleep(1)
       println("\n\nTablero: ")
       print_aux(l,1)
-      
-      val listaJava: java.util.List[Integer] = toIntegerList(l)
-      AppGUI.refrescar(listaJava)
-      
       println("\nPuntos acumulados: " + p)
       println("Coordenada X: ")
       val x = io.StdIn.readInt
@@ -274,7 +266,7 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     
     val scalaGrid = toIntList(grid)
     
-    if (is_clean(scalaGrid)) return null
+    if (is_clean(scalaGrid)) return grid
     else {
       val (l,p) = play_GUI_aux(toIntList(grid),0)
       toIntegerList(p::l)

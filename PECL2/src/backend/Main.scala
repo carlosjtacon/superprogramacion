@@ -47,8 +47,6 @@ object Main extends App{
       println("\nTablero: ")
       tab.print_aux(tab.content,1)
 			val (ini_clean,_) = tab.clean_table(tab.content,0)
-      val listaJava: java.util.List[Integer] = tab.toIntegerList(ini_clean)
-      AppGUI.startapp(listaJava)
 			val puntos = tab.play(ini_clean,mov,0)
       println("\nFin del juego, puntuacion total: "+puntos)
 		}
