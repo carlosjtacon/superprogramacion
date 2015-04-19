@@ -52,8 +52,13 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
       val aux = clean_aux(tras,tras,0)
       //limpiar horizontalmente
       val cleaned = clean_aux(l,transponer(aux,Nil,0),0)
+      println("\n\nJugada: ")
+      print_aux(cleaned, 1)
       val j_pun = puntuar(cleaned)
-      clean_table(bajar(cleaned,0),puntuacion+j_pun*10)
+      val bajada = bajar(cleaned,0)
+      println("\n\nBaja los colores y genera nuevos colores aleatorios: ")
+      print_aux(bajada, 1)
+      clean_table(bajada,puntuacion+j_pun*10)
     }    
   }
   
@@ -213,23 +218,23 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
     }
     val origenColor = get_color(l, origen)
     println(">>> Origen: " + origen)
-    println(">>> Color Origen: " + toChar.charAt(origenColor))
+    println(">>> Color Origen: " + toChar.charAt(origenColor+1))
     val destinoColor = get_color(l, destino)
     println(">>> Destino: " + destino)
-    println(">>> Color Destino: " + toChar.charAt(destinoColor))
+    println(">>> Color Destino: " + toChar.charAt(destinoColor+1))
     return insert(origenColor, destino, insert(destinoColor, origen, l))
   }
   
   //Método principal recursivo para las jugadas
   def play(l:List[Int],m:Int,p:Int):Int = {
     if (m == 0){
-      println("Tablero:")
+      println("\n\nTablero:")
       print_aux(l,1)
       p
     }      
     else try{
       Thread.sleep(1)
-      println("Tablero: ")
+      println("\n\nTablero: ")
       print_aux(l,1)
       println("\nPuntos acumulados: " + p)
       println("Coordenada X: ")

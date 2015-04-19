@@ -11,7 +11,7 @@ object Main extends App{
 
 	def generar_parametros(r:Char):(Int,Int) = r match {
 	  case 't' => 
-      print("Cuanto tiempo quieres jugar?: ")
+      print("Cuanto tiempo quieres jugar? (segundos): ")
       val time = io.StdIn.readInt
       (time,-1)
     case 'm' =>
@@ -41,9 +41,12 @@ object Main extends App{
 	val player = new Thread {
 		override def run {
 			val tab = new Tablero(8,8,dif)
+      println("Preparación del tablero inicial: ")
+      println("\nTablero: ")
+      tab.print_aux(tab.content,1)
 			val (ini_clean,_) = tab.clean_table(tab.content,0)
 			val puntos = tab.play(ini_clean,mov,0)
-      println("Fin del juego, puntuacion total: "+puntos)
+      println("\nFin del juego, puntuacion total: "+puntos)
 		}
 	}
   player.start
