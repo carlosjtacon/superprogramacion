@@ -105,11 +105,11 @@ class Tablero(xi:Int,yi:Int,dificulty:Int) {
 	  //fila intermedia
 	  else {
 		  val color = get_color(l,pos)
-				  //actual vacio -> actual = superior, superior = vacio
+				  
 		  if ((color < 0)&&(get_color(l,pos-x)<0))
       {
         val sup = superior(l,pos-x)
-        if(sup > 0)
+        if(sup >= 0)
 			    bajar_fila(insert(color,superior(l,pos-x),insert(get_color(l,superior(l,pos-x)),pos,l)),pos-x)
         else bajar_fila(insert(random,pos,l),pos-x)
       }else if (color < 0)
