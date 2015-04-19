@@ -55,6 +55,7 @@ public final class AppGUI {
 		initialize(tab);
 	}
 	
+	//devuelve una lista con la lista actual cargada en la GUI
 	private List<Integer> listaBotones() {
 		List<Integer> l = new ArrayList<Integer>();
 		for (int i=0;i<64;i++){
@@ -63,16 +64,19 @@ public final class AppGUI {
 		return l;
 	}
 	
+	//devuelve el color de una tupla
 	private int getColor(String s) {
 		String split[] = s.split(",");
 		return Integer.valueOf(split[1]);
 	}
 	
+	//devuelve la posicion de una tupla
 	private int getPosicion(String s) {
 		String split[] = s.split(",");
 		return Integer.valueOf(split[0]);
 	}
-
+	
+	//comprueba un movimiento válido
 	private boolean esValido(int a, int b){
 		if((a+1 % 8)==0) {
 			//fin de fila
@@ -156,6 +160,7 @@ public final class AppGUI {
 		change_aux = "";
 		int[] pos = new int[] {5, 50, 95, 140, 185, 230, 275, 320};
 		buttons = new JButton[tablist.size()];
+		//se crean todos los botones
 		for (int i=0; i<8; i++) {
 			for(int j=0; j<8; j++) {
 				buttons[i*8+j] = new JButton();
@@ -170,12 +175,15 @@ public final class AppGUI {
 					public void actionPerformed(ActionEvent e) {
 						JButton b = (JButton) e.getSource();
 						System.out.println(b.getToolTipText());
+						//primer boton pulsado
 						if(change_aux == "") {
 							System.out.println("Primer boton");
 							change_aux = b.getToolTipText(); 
+						//segundo boton pero no valido
 						} else if (!esValido(getPosicion(change_aux), getPosicion(b.getToolTipText()))){
 							System.out.println("Movimiento no válido");
 							change_aux = "";
+						//segundo boton valido
 						} else {
 							System.out.println("Segundo boton");
 							int origen = getPosicion(change_aux);
@@ -188,6 +196,7 @@ public final class AppGUI {
 							
 							List<Integer> vieja_lista = listaBotones();
 							List<Integer> nueva_lista = tab.play_GUI(vieja_lista);
+							//si el movimiento hace jugada se ejecuta
 							if(nueva_lista!=null){
 								for (int i=0; i<8; i++) {
 									for(int j=0; j<8; j++) {
@@ -215,11 +224,6 @@ public final class AppGUI {
 								lblPuntos.setText("Puntuacion Final: "+puntuacion);
 								frmFinal.setVisible(true);
 							}
-//								try{
-//								Thread.sleep(1000);
-//								} catch(InterruptedException ex) {}
-//								System.exit(0);
-//								}
 						}
 					}
 				});
