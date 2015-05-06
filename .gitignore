@@ -83,3 +83,7 @@ PECL2/src/work.sc
 PECL2/src/backend/test.scala
 
 PECL2/src/actors
+
+PECL3/.gwt/.gwt-log
+PECL3/war
+PECL3/gwt-unitCache
