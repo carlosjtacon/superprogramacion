@@ -1,2 +1,0 @@
-serviceClass: com.mario_carlos.pecl3.client.LoginService
-path: 5541B4DD16EA49B63E57550521E1D713.gwt.rpc
