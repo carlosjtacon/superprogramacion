@@ -1,5 +1,7 @@
 package com.mario_carlos.pecl3.shared;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -8,10 +10,8 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Libro {
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long id;
+public class Libro implements Serializable {
+	
 	@Persistent
 	private String titulo;
 	@Persistent
@@ -26,6 +26,7 @@ public class Libro {
 	private String fecha_p;
 	@Persistent
 	private String paginas;
+	@PrimaryKey
 	@Persistent
 	private String isbn;
 	@Persistent
@@ -37,12 +38,11 @@ public class Libro {
 	@Persistent
 	private String copias;
 	
-	public Libro(Long id, String titulo, String autores, String edicion,
+	public Libro(String titulo, String autores, String edicion,
 			String resumen, String editor, String fecha_p, String paginas,
 			String isbn, String enlace, String materia, String portada,
 			String copias) {
 		super();
-		this.id = id;
 		this.titulo = titulo;
 		this.autores = autores;
 		this.edicion = edicion;
@@ -57,12 +57,6 @@ public class Libro {
 		this.copias = copias;
 	}
 	//getters and setters 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getTitulo() {
 		return titulo;
 	}
