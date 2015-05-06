@@ -84,17 +84,33 @@ PECL2/src/backend/test.scala
 
 PECL2/src/actors
 
-PECL3/war
-
 PECL3/src/com/mario_carlos/pecl3/PECL3.gwt.xml
 
 PECL3/gwt-unitCache
 *.prefs
-
-*.xml
 
 PECL3/.gwt/.gwt-log
 
 PECL3/.classpath
 
 PECL3/src/log4j.properties
+
+*.css
+
+*.html
+
+*.js
+
+*.rpc
+
+*.gif
+
+*.txt
+
+*.png
+
+*.symbolMap
+
+*.jar
+
+*.ico
