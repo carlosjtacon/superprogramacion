@@ -6,6 +6,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.mario_carlos.pecl3.client.LoginInfo;
 import com.mario_carlos.pecl3.client.LoginService;
+import com.mario_carlos.pecl3.shared.Libro;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 class Server extends RemoteServiceServlet with LoginService {
   
@@ -25,5 +28,37 @@ class Server extends RemoteServiceServlet with LoginService {
           loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
     }   
     return loginInfo;
+  }
+  
+  def insert(libro:Libro):Libro = {
+    // TODO Auto-generated method stub
+    val pm = PMF.get().getPersistenceManager();
+    try {
+      pm.makePersistent(libro);
+    }catch {
+      case t: Throwable =>{
+        t.printStackTrace() // TODO: handle error
+        pm.close
+        return null
+      }        
+    }
+    pm.close
+    return libro;
+  }
+  
+  def getBooks():java.util.ArrayList[Libro] = {
+    val pm = PMF.get().getPersistenceManager();
+    val query = pm.newQuery("select from Libro");
+    try {
+      val libros:java.util.ArrayList[Libro] = query.execute().asInstanceOf[java.util.ArrayList[Libro]];
+      query.closeAll()
+      return libros
+    } catch {
+      case t: Throwable =>{
+        t.printStackTrace() // TODO: handle error
+        query.closeAll()
+        return null
+      }      
+    }
   }
 }
