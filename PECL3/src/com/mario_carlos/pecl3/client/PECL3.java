@@ -117,4 +117,8 @@ public class PECL3 implements EntryPoint {
 		Label lblNewLabel = new Label("Copias existentes");
 		absolutePanel.add(lblNewLabel, 11, 318);
 	}
+	
+	private void load_UI_insert(){
+		
+	}
 }

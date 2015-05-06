@@ -5,18 +5,18 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Button;
 
-public class AppLogin implements EntryPoint{
+public class GUI implements EntryPoint{
+
+	@Override
 	public void onModuleLoad() {
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		loadUI();
+		RootPanel rootPanel = RootPanel.get();
 
-	}
-	private void loadUI(){
-		
 		TabPanel tabPanel = new TabPanel();
+		rootPanel.add(tabPanel, 100, 50);
 		tabPanel.setSize("430px", "513px");
 		
 		AbsolutePanel absolutePanel = new AbsolutePanel();
@@ -66,5 +66,56 @@ public class AppLogin implements EntryPoint{
 		
 		Label lblNewLabel = new Label("Copias existentes");
 		absolutePanel.add(lblNewLabel, 11, 318);
+		
+		TextBox textBox = new TextBox();
+		absolutePanel.add(textBox, 183, 8);
+		textBox.setSize("157px", "8px");
+		
+		TextBox textBox_1 = new TextBox();
+		absolutePanel.add(textBox_1, 183, 32);
+		textBox_1.setSize("157px", "8px");
+		
+		TextBox textBox_2 = new TextBox();
+		absolutePanel.add(textBox_2, 183, 58);
+		textBox_2.setSize("157px", "8px");
+		
+		TextBox textBox_3 = new TextBox();
+		absolutePanel.add(textBox_3, 183, 82);
+		textBox_3.setSize("157px", "8px");
+		
+		TextBox textBox_4 = new TextBox();
+		absolutePanel.add(textBox_4, 183, 148);
+		textBox_4.setSize("157px", "8px");
+		
+		TextBox textBox_5 = new TextBox();
+		absolutePanel.add(textBox_5, 183, 174);
+		textBox_5.setSize("157px", "8px");
+		
+		TextBox textBox_6 = new TextBox();
+		absolutePanel.add(textBox_6, 183, 198);
+		textBox_6.setSize("157px", "8px");
+		
+		TextBox textBox_7 = new TextBox();
+		absolutePanel.add(textBox_7, 183, 222);
+		textBox_7.setSize("157px", "8px");
+		
+		TextBox textBox_8 = new TextBox();
+		absolutePanel.add(textBox_8, 183, 246);
+		textBox_8.setSize("157px", "8px");
+		
+		TextBox textBox_9 = new TextBox();
+		absolutePanel.add(textBox_9, 183, 270);
+		textBox_9.setSize("157px", "8px");
+		
+		TextBox textBox_10 = new TextBox();
+		absolutePanel.add(textBox_10, 183, 294);
+		textBox_10.setSize("157px", "8px");
+		
+		TextBox textBox_11 = new TextBox();
+		absolutePanel.add(textBox_11, 183, 318);
+		textBox_11.setSize("157px", "8px");
+		
+		Button btnInsertar = new Button("Insertar");
+		absolutePanel.add(btnInsertar, 268, 380);
 	}
 }
