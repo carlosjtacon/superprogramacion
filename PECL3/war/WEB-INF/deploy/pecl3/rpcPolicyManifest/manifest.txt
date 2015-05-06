@@ -1,2 +1,3 @@
 # Module pecl3
 # RPC service class, partial path of RPC policy file
+com.mario_carlos.pecl3.client.LoginService, 5541B4DD16EA49B63E57550521E1D713.gwt.rpc

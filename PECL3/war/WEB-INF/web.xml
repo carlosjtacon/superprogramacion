@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>loginService</servlet-name>
-    <servlet-class>com.mario_carlos.pecl3.server.LoginServiceImpl</servlet-class>
+    <servlet-class>com.mario_carlos.pecl3.server.Server</servlet-class>
   </servlet>
   
   <servlet-mapping>

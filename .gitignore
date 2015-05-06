@@ -87,3 +87,5 @@ PECL2/src/actors
 PECL3/.gwt/.gwt-log
 PECL3/war
 PECL3/gwt-unitCache
+
+PECL3/war/
