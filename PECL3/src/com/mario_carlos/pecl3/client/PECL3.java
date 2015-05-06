@@ -1,22 +1,12 @@
 package com.mario_carlos.pecl3.client;
 
-import com.mario_carlos.pecl3.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
@@ -35,17 +25,16 @@ public class PECL3 implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
-
 
 	private LoginInfo loginInfo = null;
 	  private VerticalPanel loginPanel = new VerticalPanel();
 	  private Label loginLabel = new Label(
-	      "Please sign in to your Google Account to access the StockWatcher application.");
+	      "Por favor, haz regístrate para acceder al servicio bibliográfico.");
 	  private Anchor signInLink = new Anchor("Sign In");
-
+	  private Anchor signOutLink = new Anchor("Sign Out");
+	  
 	  public void onModuleLoad() {
+		  //loadUI();
 	    // Check login status using login service.
 	    LoginServiceAsync loginService = GWT.create(LoginService.class);
 	    loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
@@ -55,7 +44,7 @@ public class PECL3 implements EntryPoint {
 	      public void onSuccess(LoginInfo result) {
 	        loginInfo = result;
 	        if(loginInfo.isLoggedIn()) {
-	          loadUI();
+	          loadUI(loginInfo);
 	        } else {
 	          loadLogin();
 	        }
@@ -70,12 +59,14 @@ public class PECL3 implements EntryPoint {
 	    loginPanel.add(signInLink);
 	    RootPanel.get().add(loginPanel);
 	  }
-	private void loadUI(){
-		
+	private void loadUI(LoginInfo user){
+		signOutLink.setHref(loginInfo.getLogoutUrl());
+		Label nick = new Label(user.getNickname());
 		RootPanel rootPanel = RootPanel.get();
-		
+		rootPanel.add(signOutLink,200,1);
+		rootPanel.add(nick,1,1);
 		TabPanel tabPanel = new TabPanel();
-		rootPanel.add(tabPanel, 10, 10);
+		rootPanel.add(tabPanel, 100, 50);
 		tabPanel.setSize("430px", "513px");
 		
 		AbsolutePanel absolutePanel = new AbsolutePanel();
