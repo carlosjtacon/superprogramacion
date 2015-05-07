@@ -70,14 +70,16 @@ public class PECL3 implements EntryPoint {
 	    loginPanel.add(signInLink);
 	    RootPanel.get().add(loginPanel);
 	  }
-	private void loadUI(LoginInfo user){
-		signOutLink.setHref(loginInfo.getLogoutUrl());
-		Label nick = new Label(user.getNickname());
-		RootPanel rootPanel = RootPanel.get();
-		rootPanel.add(signOutLink,200,1);
-		rootPanel.add(nick,1,1);
-
-		ArrayList<Libro> libros = new ArrayList<Libro>();
+	  
+	  private Libro getLibro(String titulo, ArrayList<Libro> libros) {
+		for (Libro libro : libros) {
+			if (libro.getTitulo().equals(titulo)) return libro;
+		}
+		return null;
+	  }
+	  
+	  private void loadUI(LoginInfo user){
+		final ArrayList<Libro> libros = new ArrayList<Libro>();
 		libros.add(new Libro("The Martian", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		libros.add(new Libro("Moon", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		libros.add(new Libro("Submarine", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
@@ -86,32 +88,14 @@ public class PECL3 implements EntryPoint {
 		libros.add(new Libro("Game of Thrones", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		libros.add(new Libro("Star Wars", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-
-		ArrayList<String> libros_str = new ArrayList<String>();
-		for (int i = 0; i < libros.size(); i++) {
-			libros_str.add(libros.get(i).getTitulo());
-		}
 		
-		TextCell textCell = new TextCell();
-		CellList<String> cellBookList = new CellList<String>(textCell);
-		cellBookList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		
+		signOutLink.setHref(loginInfo.getLogoutUrl());
+		Label nick = new Label(user.getNickname());
+		RootPanel rootPanel = RootPanel.get();
+		rootPanel.add(signOutLink,200,1);
+		rootPanel.add(nick,1,1);
 
-		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
-	    cellBookList.setSelectionModel(selectionModel);
-	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-	      public void onSelectionChange(SelectionChangeEvent event) {
-	        String selected = selectionModel.getSelectedObject();
-	        if (selected != null) {
-	          Window.alert("You selected: " + selected);
-	        }
-	      }
-	    });
-
-	    cellBookList.setRowCount(libros_str.size(), true);
-	    cellBookList.setRowData(0, libros_str);
-
-		rootPanel.add(cellBookList, 66, 50);
-		cellBookList.setSize("267px", "514px");
 
 		TabPanel tabPanel = new TabPanel();
 		rootPanel.add(tabPanel, 339, 50);
@@ -165,51 +149,51 @@ public class PECL3 implements EntryPoint {
 		Label labelView_11 = new Label("Copias existentes");
 		absolutePanelView.add(labelView_11, 11, 318);
 		
-		Label labelViewData_0 = new Label("datos demo");
+		final Label labelViewData_0 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_0, 183, 8);
 		labelViewData_0.setSize("157px", "8px");
 		
-		Label labelViewData_1 = new Label("datos demo");
+		final Label labelViewData_1 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_1, 183, 32);
 		labelViewData_1.setSize("157px", "8px");
 		
-		Label labelViewData_2 = new Label("datos demo");
+		final Label labelViewData_2 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_2, 183, 58);
 		labelViewData_2.setSize("157px", "8px");
 		
-		Label labelViewData_3 = new Label("datos demo");
+		final Label labelViewData_3 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_3, 183, 82);
 		labelViewData_3.setSize("157px", "8px");
 		
-		Label labelViewData_4 = new Label("datos demo");
+		final Label labelViewData_4 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_4, 183, 148);
 		labelViewData_4.setSize("157px", "8px");
 		
-		Label labelViewData_5 = new Label("datos demo");
+		final Label labelViewData_5 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_5, 183, 174);
 		labelViewData_5.setSize("157px", "8px");
 		
-		Label labelViewData_6 = new Label("datos demo");
+		final Label labelViewData_6 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_6, 183, 198);
 		labelViewData_6.setSize("157px", "8px");
 		
-		Label labelViewData_7 = new Label("datos demo");
+		final Label labelViewData_7 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_7, 183, 222);
 		labelViewData_7.setSize("157px", "8px");
 		
-		Label labelViewData_8 = new Label("datos demo");
+		final Label labelViewData_8 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_8, 183, 246);
 		labelViewData_8.setSize("157px", "8px");
 		
-		Label labelViewData_9 = new Label("datos demo");
+		final Label labelViewData_9 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_9, 183, 270);
 		labelViewData_9.setSize("157px", "8px");
 		
-		Label labelViewData_10 = new Label("datos demo");
+		final Label labelViewData_10 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_10, 183, 294);
 		labelViewData_10.setSize("157px", "8px");
 		
-		Label labelViewData_11 = new Label("datos demo");
+		final Label labelViewData_11 = new Label("datos demo");
 		absolutePanelView.add(labelViewData_11, 183, 318);
 		labelViewData_11.setSize("157px", "8px");
 		
@@ -261,51 +245,51 @@ public class PECL3 implements EntryPoint {
 		Label labelEdit_11 = new Label("Copias existentes");
 		absolutePanelEdit.add(labelEdit_11, 11, 318);
 		
-		TextBox textBoxEdit_0 = new TextBox();
+		final TextBox textBoxEdit_0 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_0, 183, 8);
 		textBoxEdit_0.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_1 = new TextBox();
+		final TextBox textBoxEdit_1 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_1, 183, 32);
 		textBoxEdit_1.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_2 = new TextBox();
+		final TextBox textBoxEdit_2 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_2, 183, 58);
 		textBoxEdit_2.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_3 = new TextBox();
+		final TextBox textBoxEdit_3 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_3, 183, 82);
 		textBoxEdit_3.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_4 = new TextBox();
+		final TextBox textBoxEdit_4 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_4, 183, 148);
 		textBoxEdit_4.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_5 = new TextBox();
+		final TextBox textBoxEdit_5 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_5, 183, 174);
 		textBoxEdit_5.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_6 = new TextBox();
+		final TextBox textBoxEdit_6 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_6, 183, 198);
 		textBoxEdit_6.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_7 = new TextBox();
+		final TextBox textBoxEdit_7 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_7, 183, 222);
 		textBoxEdit_7.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_8 = new TextBox();
+		final TextBox textBoxEdit_8 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_8, 183, 246);
 		textBoxEdit_8.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_9 = new TextBox();
+		final TextBox textBoxEdit_9 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_9, 183, 270);
 		textBoxEdit_9.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_10 = new TextBox();
+		final TextBox textBoxEdit_10 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_10, 183, 294);
 		textBoxEdit_10.setSize("157px", "8px");
 		
-		TextBox textBoxEdit_11 = new TextBox();
+		final TextBox textBoxEdit_11 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_11, 183, 318);
 		textBoxEdit_11.setSize("157px", "8px");
 		
@@ -410,9 +394,55 @@ public class PECL3 implements EntryPoint {
 		
 		Button btnInsert = new Button("Insertar");
 		absolutePanelInsert.add(btnInsert, 268, 380);
+		
+		ArrayList<String> libros_str = new ArrayList<String>();
+		for (int i = 0; i < libros.size(); i++) {
+			libros_str.add(libros.get(i).getTitulo());
+		}
+		
+		TextCell textCell = new TextCell();
+		CellList<String> cellBookList = new CellList<String>(textCell);
+		cellBookList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+
+		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
+	    cellBookList.setSelectionModel(selectionModel);
+	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+	      public void onSelectionChange(SelectionChangeEvent event) {
+	        String selected = selectionModel.getSelectedObject();
+	        if (selected != null) {
+	          labelViewData_0.setText(getLibro(selected, libros).getTitulo());
+	          labelViewData_1.setText(getLibro(selected, libros).getAutores());
+	          labelViewData_2.setText(getLibro(selected, libros).getEdicion());
+	          labelViewData_3.setText(getLibro(selected, libros).getResumen());
+	          labelViewData_4.setText(getLibro(selected, libros).getEditor());
+	          labelViewData_5.setText(getLibro(selected, libros).getFecha_p());
+	          labelViewData_6.setText(getLibro(selected, libros).getPaginas());
+	          labelViewData_7.setText(getLibro(selected, libros).getIsbn());
+	          labelViewData_8.setText(getLibro(selected, libros).getEnlace());
+	          labelViewData_9.setText(getLibro(selected, libros).getMateria());
+	          labelViewData_10.setText(getLibro(selected, libros).getPortada());
+	          labelViewData_11.setText(getLibro(selected, libros).getCopias());
+	          textBoxEdit_0.setText(getLibro(selected, libros).getTitulo());
+	          textBoxEdit_1.setText(getLibro(selected, libros).getAutores());
+	          textBoxEdit_2.setText(getLibro(selected, libros).getEdicion());
+	          textBoxEdit_3.setText(getLibro(selected, libros).getResumen());
+	          textBoxEdit_4.setText(getLibro(selected, libros).getEditor());
+	          textBoxEdit_5.setText(getLibro(selected, libros).getFecha_p());
+	          textBoxEdit_6.setText(getLibro(selected, libros).getPaginas());
+	          textBoxEdit_7.setText(getLibro(selected, libros).getIsbn());
+	          textBoxEdit_8.setText(getLibro(selected, libros).getEnlace());
+	          textBoxEdit_9.setText(getLibro(selected, libros).getMateria());
+	          textBoxEdit_10.setText(getLibro(selected, libros).getPortada());
+	          textBoxEdit_11.setText(getLibro(selected, libros).getCopias());
+	        }
+	      }
+	    });
+
+	    cellBookList.setRowCount(libros_str.size(), true);
+	    cellBookList.setRowData(0, libros_str);
+
+		rootPanel.add(cellBookList, 66, 50);
+		cellBookList.setSize("267px", "514px");
 	}
 	
-	private void load_UI_insert(){
-		
-	}
 }
