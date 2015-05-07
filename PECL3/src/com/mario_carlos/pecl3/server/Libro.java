@@ -39,6 +39,8 @@ public class Libro implements Serializable {
 	private String portada;
 	@Persistent
 	private String copias;
+	@Persistent
+	private int prestados;
 	
 	public Libro(String titulo, String autores, String edicion,
 			String resumen, String editor, String fecha_p, String paginas,
@@ -57,6 +59,7 @@ public class Libro implements Serializable {
 		this.materia = materia;
 		this.portada = portada;
 		this.copias = copias;
+		this.prestados = 0;
 	}
 	public Libro() {
 		super();
@@ -72,6 +75,7 @@ public class Libro implements Serializable {
 		this.materia = "";
 		this.portada = "";
 		this.copias = "";
+		this.prestados = 0;
 	}
 	//getters and setters 
 	public String getTitulo() {
@@ -146,6 +150,8 @@ public class Libro implements Serializable {
 	public void setCopias(String copias) {
 		this.copias = copias;
 	}
-	
+	public int getPrestados() {
+		return prestados;
+	}
 	
 }

@@ -11,4 +11,5 @@ public interface LoginService extends RemoteService{
 	public LoginInfo login(String requestUri);
 	public Libro insert(Libro libro);
 	public ArrayList<Libro> getBooks();
+	public Libro modificar(Libro libro);
 }

@@ -47,6 +47,23 @@ class Server extends RemoteServiceServlet with LoginService {
     return libro;
   }
   
+  def modificar(libro:Libro):Libro = {
+    val pm = PMF.get.getPersistenceManager
+    try{
+      val l:Libro = pm.getObjectById(classOf[Libro], libro.getIsbn)
+      pm.deletePersistent(l)
+      pm.makePersistent(libro)
+      pm.close
+      return libro
+    } catch {
+      case t: Throwable =>{
+        t.printStackTrace() // TODO: handle error
+        pm.close
+        return null
+      }
+    }
+  }
+  
   def getBooks():java.util.ArrayList[Libro] = {
     val pm = PMF.get().getPersistenceManager();
     val query = pm.newQuery(classOf[Libro]);

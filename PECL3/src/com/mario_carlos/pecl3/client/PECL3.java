@@ -280,6 +280,7 @@ public class PECL3 implements EntryPoint {
 		final TextBox textBoxEdit_7 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_7, 183, 222);
 		textBoxEdit_7.setSize("157px", "8px");
+		textBoxEdit_7.setEnabled(false);
 		
 		final TextBox textBoxEdit_8 = new TextBox();
 		absolutePanelEdit.add(textBoxEdit_8, 183, 246);
@@ -313,6 +314,27 @@ public class PECL3 implements EntryPoint {
 		        String portada = textBoxEdit_10.getText();
 		        String copias = textBoxEdit_11.getText();
 		        Libro libroEditado = new Libro(titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
+		        
+		        loginService.modificar(libroEditado, new AsyncCallback<Libro>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Ups");
+					}
+
+					@Override
+					public void onSuccess(Libro result) {
+						// TODO Auto-generated method stub
+						if (result != null){
+							Window.alert("Libro modificado correctamente");
+						}else{
+							Window.alert("Libro modificado incorrectamente");
+						}
+					}
+					
+				});
+		        
 				Window.alert("Has editado los datos de un libro: " + libroEditado.toString());
 			}
 		});
