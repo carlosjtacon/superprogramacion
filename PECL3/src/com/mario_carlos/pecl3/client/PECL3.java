@@ -486,7 +486,7 @@ public class PECL3 implements EntryPoint {
 		rootPanel.add(cellBookList, 66, 50);
 		cellBookList.setSize("267px", "442px");
 
-		Button btnPrestarLibro = new Button("Prestar Libros");
+		Button btnPrestarLibro = new Button("Prestar Libro");
 		btnPrestarLibro.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String seleccion = selectionModel.getSelectedObject();
