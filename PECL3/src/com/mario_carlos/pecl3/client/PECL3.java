@@ -2,17 +2,13 @@ package com.mario_carlos.pecl3.client;
 
 import java.util.ArrayList;
 
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -53,7 +49,7 @@ public class PECL3 implements EntryPoint {
 	  public void onModuleLoad() {
 		  //loadUI();
 	    // Check login status using login service.
-	    LoginServiceAsync loginService = GWT.create(LoginService.class);
+	    final LoginServiceAsync loginService = GWT.create(LoginService.class);
 	    loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 	      public void onFailure(Throwable error) {
 	      }
@@ -61,7 +57,7 @@ public class PECL3 implements EntryPoint {
 	      public void onSuccess(LoginInfo result) {
 	        loginInfo = result;
 	        if(loginInfo.isLoggedIn()) {
-	          loadUI(loginInfo);
+	          loadUI(loginService);
 	        } else {
 	          loadLogin();
 	        }
@@ -84,20 +80,36 @@ public class PECL3 implements EntryPoint {
 		return null;
 	  }
 	  
-	  private void loadUI(LoginInfo user){
-		final ArrayList<Libro> libros = new ArrayList<Libro>();
-		libros.add(new Libro("The Martian", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("Moon", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("Submarine", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("The Double", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("True Detective", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("Game of Thrones", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("Star Wars", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+	  private void loadUI(final LoginServiceAsync loginService){
+//		final ArrayList<Libro> libros = new ArrayList<Libro>();
+//		libros.add(new Libro("The Martian", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("Moon", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("Submarine", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("The Double", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("True Detective", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("Game of Thrones", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("Star Wars", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
+//		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		
+		final ArrayList<Libro> libros = new ArrayList<Libro>();
+		loginService.getBooks(new AsyncCallback<ArrayList<Libro>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Libro> result) {
+				// TODO Auto-generated method stub
+				libros.addAll(result);
+			}
+			
+		});
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
-		Label nick = new Label(user.getNickname());
+		Label nick = new Label(loginInfo.getNickname());
 		RootPanel rootPanel = RootPanel.get();
 		rootPanel.add(signOutLink,200,1);
 		rootPanel.add(nick,1,1);
@@ -432,7 +444,28 @@ public class PECL3 implements EntryPoint {
 		        String portada = textBoxInsert_10.getText();
 		        String copias = textBoxInsert_11.getText();
 		        Libro nuevoLibro = new Libro(titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
-				Window.alert("Has insertado un nuevo libro: " + nuevoLibro.toString());
+		        
+		        loginService.insert(nuevoLibro, new AsyncCallback<Libro>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Ups");
+					}
+
+					@Override
+					public void onSuccess(Libro result) {
+						// TODO Auto-generated method stub
+						if (result != null){
+							Window.alert("Libro creado correctamente");
+						}else{
+							Window.alert("Libro creado incorrectamente");
+						}
+					}
+					
+				});
+		        
+//				Window.alert("Has insertado un nuevo libro: " + nuevoLibro.toString());
 			}
 		});
 		absolutePanelInsert.add(btnInsert, 268, 380);
