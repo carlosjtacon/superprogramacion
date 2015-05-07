@@ -2,6 +2,7 @@ package com.mario_carlos.pecl3.server;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -14,6 +15,9 @@ public class Libro implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7885182305169130479L;
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)	
+	@PrimaryKey
+	private long id;
 	@Persistent
 	private String titulo;
 	@Persistent
@@ -28,7 +32,6 @@ public class Libro implements Serializable {
 	private String fecha_p;
 	@Persistent
 	private String paginas;
-	@PrimaryKey
 	@Persistent
 	private String isbn;
 	@Persistent
@@ -39,6 +42,8 @@ public class Libro implements Serializable {
 	private String portada;
 	@Persistent
 	private String copias;
+	@Persistent
+	private int prestados;
 	
 	public Libro(String titulo, String autores, String edicion,
 			String resumen, String editor, String fecha_p, String paginas,
@@ -57,6 +62,27 @@ public class Libro implements Serializable {
 		this.materia = materia;
 		this.portada = portada;
 		this.copias = copias;
+		this.prestados = 0;
+	}
+	public Libro(long id, String titulo, String autores, String edicion,
+			String resumen, String editor, String fecha_p, String paginas,
+			String isbn, String enlace, String materia, String portada,
+			String copias) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.autores = autores;
+		this.edicion = edicion;
+		this.resumen = resumen;
+		this.editor = editor;
+		this.fecha_p = fecha_p;
+		this.paginas = paginas;
+		this.isbn = isbn;
+		this.enlace = enlace;
+		this.materia = materia;
+		this.portada = portada;
+		this.copias = copias;
+		this.prestados = 0;
 	}
 	public Libro() {
 		super();
@@ -72,8 +98,12 @@ public class Libro implements Serializable {
 		this.materia = "";
 		this.portada = "";
 		this.copias = "";
+		this.prestados = 0;
 	}
 	//getters and setters 
+	public long getId() {
+		return id;
+	}
 	public String getTitulo() {
 		return titulo;
 	}
@@ -146,6 +176,8 @@ public class Libro implements Serializable {
 	public void setCopias(String copias) {
 		this.copias = copias;
 	}
-	
+	public int getPrestados() {
+		return prestados;
+	}
 	
 }
