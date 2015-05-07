@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.mario_carlos.pecl3.shared.Libro;
+import com.mario_carlos.pecl3.server.Libro;
 
 @RemoteServiceRelativePath("login")
 public interface LoginService extends RemoteService{

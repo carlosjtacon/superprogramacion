@@ -6,7 +6,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.mario_carlos.pecl3.client.LoginInfo;
 import com.mario_carlos.pecl3.client.LoginService;
-import com.mario_carlos.pecl3.shared.Libro;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 

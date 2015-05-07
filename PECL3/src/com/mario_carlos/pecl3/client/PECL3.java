@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.mario_carlos.pecl3.shared.Libro;
+import com.mario_carlos.pecl3.server.Libro;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.

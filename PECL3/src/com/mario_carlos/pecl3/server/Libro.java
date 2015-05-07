@@ -1,4 +1,4 @@
-package com.mario_carlos.pecl3.shared;
+package com.mario_carlos.pecl3.server;
 
 import java.io.Serializable;
 
@@ -10,6 +10,10 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Libro implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7885182305169130479L;
 	@Persistent
 	private String titulo;
 	@Persistent
@@ -35,7 +39,6 @@ public class Libro implements Serializable {
 	private String portada;
 	@Persistent
 	private String copias;
-	
 	
 	public Libro(String titulo, String autores, String edicion,
 			String resumen, String editor, String fecha_p, String paginas,

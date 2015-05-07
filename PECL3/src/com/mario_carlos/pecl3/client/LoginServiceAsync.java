@@ -3,7 +3,7 @@ package com.mario_carlos.pecl3.client;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.mario_carlos.pecl3.shared.Libro;
+import com.mario_carlos.pecl3.server.Libro;
 
 public interface LoginServiceAsync {
 	public void login(String requestUri, AsyncCallback<LoginInfo> async);
