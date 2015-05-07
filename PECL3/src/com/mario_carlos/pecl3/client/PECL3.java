@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
@@ -294,6 +296,24 @@ public class PECL3 implements EntryPoint {
 		textBoxEdit_11.setSize("157px", "8px");
 		
 		Button btnEdit = new Button("Guardar");
+		btnEdit.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String titulo = textBoxEdit_0.getText();
+		        String autores = textBoxEdit_1.getText();
+		        String edicion = textBoxEdit_2.getText();
+		        String resumen = textBoxEdit_3.getText();
+		        String editor = textBoxEdit_4.getText();
+		        String fecha = textBoxEdit_5.getText();
+		        String paginas = textBoxEdit_6.getText();
+		        String isbn = textBoxEdit_7.getText();
+		        String url = textBoxEdit_8.getText();
+		        String materia = textBoxEdit_9.getText();
+		        String portada = textBoxEdit_10.getText();
+		        String copias = textBoxEdit_11.getText();
+		        Libro libroEditado = new Libro(titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
+				Window.alert("Has editado los datos de un libro: " + libroEditado.toString());
+			}
+		});
 		absolutePanelEdit.add(btnEdit, 268, 380);
 		
 		AbsolutePanel absolutePanelInsert = new AbsolutePanel();
@@ -344,55 +364,73 @@ public class PECL3 implements EntryPoint {
 		Label labelInsert_11 = new Label("Copias existentes");
 		absolutePanelInsert.add(labelInsert_11, 11, 318);
 		
-		TextBox textBoxInsert_0 = new TextBox();
+		final TextBox textBoxInsert_0 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_0, 183, 8);
 		textBoxInsert_0.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_1 = new TextBox();
+		final TextBox textBoxInsert_1 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_1, 183, 32);
 		textBoxInsert_1.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_2 = new TextBox();
+		final TextBox textBoxInsert_2 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_2, 183, 58);
 		textBoxInsert_2.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_3 = new TextBox();
+		final TextBox textBoxInsert_3 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_3, 183, 82);
 		textBoxInsert_3.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_4 = new TextBox();
+		final TextBox textBoxInsert_4 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_4, 183, 148);
 		textBoxInsert_4.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_5 = new TextBox();
+		final TextBox textBoxInsert_5 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_5, 183, 174);
 		textBoxInsert_5.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_6 = new TextBox();
+		final TextBox textBoxInsert_6 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_6, 183, 198);
 		textBoxInsert_6.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_7 = new TextBox();
+		final TextBox textBoxInsert_7 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_7, 183, 222);
 		textBoxInsert_7.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_8 = new TextBox();
+		final TextBox textBoxInsert_8 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_8, 183, 246);
 		textBoxInsert_8.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_9 = new TextBox();
+		final TextBox textBoxInsert_9 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_9, 183, 270);
 		textBoxInsert_9.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_10 = new TextBox();
+		final TextBox textBoxInsert_10 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_10, 183, 294);
 		textBoxInsert_10.setSize("157px", "8px");
 		
-		TextBox textBoxInsert_11 = new TextBox();
+		final TextBox textBoxInsert_11 = new TextBox();
 		absolutePanelInsert.add(textBoxInsert_11, 183, 318);
 		textBoxInsert_11.setSize("157px", "8px");
 		
 		Button btnInsert = new Button("Insertar");
+		btnInsert.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String titulo = textBoxInsert_0.getText();
+		        String autores = textBoxInsert_1.getText();
+		        String edicion = textBoxInsert_2.getText();
+		        String resumen = textBoxInsert_3.getText();
+		        String editor = textBoxInsert_4.getText();
+		        String fecha = textBoxInsert_5.getText();
+		        String paginas = textBoxInsert_6.getText();
+		        String isbn = textBoxInsert_7.getText();
+		        String url = textBoxInsert_8.getText();
+		        String materia = textBoxInsert_9.getText();
+		        String portada = textBoxInsert_10.getText();
+		        String copias = textBoxInsert_11.getText();
+		        Libro nuevoLibro = new Libro(titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
+				Window.alert("Has insertado un nuevo libro: " + nuevoLibro.toString());
+			}
+		});
 		absolutePanelInsert.add(btnInsert, 268, 380);
 		
 		ArrayList<String> libros_str = new ArrayList<String>();
