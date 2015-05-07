@@ -9,5 +9,4 @@ public interface LoginServiceAsync {
 	public void login(String requestUri, AsyncCallback<LoginInfo> async);
 	public void insert(Libro libro, AsyncCallback<Libro> async);
 	public void getBooks(AsyncCallback<ArrayList<Libro>> async);
-	public void modificar(Libro libro, AsyncCallback<Libro> async);
 }

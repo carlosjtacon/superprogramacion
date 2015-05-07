@@ -91,8 +91,6 @@ public class PECL3 implements EntryPoint {
 //		libros.add(new Libro("Star Wars", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 //		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		
-		final long aux_id = 5629499534213120L;
-		
 		final ArrayList<Libro> libros = new ArrayList<Libro>();
 		final ArrayList<String> libros_str = new ArrayList<String>();
 		
@@ -314,29 +312,8 @@ public class PECL3 implements EntryPoint {
 		        String materia = textBoxEdit_9.getText();
 		        String portada = textBoxEdit_10.getText();
 		        String copias = textBoxEdit_11.getText();
-		        Libro libroEditado = new Libro(aux_id, titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
-		        
-		        loginService.modificar(libroEditado, new AsyncCallback<Libro>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Window.alert("Ups");
-					}
-
-					@Override
-					public void onSuccess(Libro result) {
-						// TODO Auto-generated method stub
-						if (result != null){
-							Window.alert("Libro modificado correctamente");
-						}else{
-							Window.alert("Libro modificado incorrectamente");
-						}
-					}
-					
-				});
-		        
-//				Window.alert("Has editado los datos de un libro: " + libroEditado.toString());
+		        Libro libroEditado = new Libro(titulo, autores, edicion, resumen, editor, fecha, paginas, isbn, url, materia, portada, copias);
+				Window.alert("Has editado los datos de un libro: " + libroEditado.toString());
 			}
 		});
 		absolutePanelEdit.add(btnEdit, 268, 380);
