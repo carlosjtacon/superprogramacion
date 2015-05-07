@@ -2,8 +2,6 @@ package com.mario_carlos.pecl3.shared;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -38,6 +36,7 @@ public class Libro implements Serializable {
 	@Persistent
 	private String copias;
 	
+	
 	public Libro(String titulo, String autores, String edicion,
 			String resumen, String editor, String fecha_p, String paginas,
 			String isbn, String enlace, String materia, String portada,
@@ -55,6 +54,21 @@ public class Libro implements Serializable {
 		this.materia = materia;
 		this.portada = portada;
 		this.copias = copias;
+	}
+	public Libro() {
+		super();
+		this.titulo = "";
+		this.autores = "";
+		this.edicion = "";
+		this.resumen = "";
+		this.editor = "";
+		this.fecha_p = "";
+		this.paginas = "";
+		this.isbn = "";
+		this.enlace = "";
+		this.materia = "";
+		this.portada = "";
+		this.copias = "";
 	}
 	//getters and setters 
 	public String getTitulo() {
