@@ -5,13 +5,13 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.mario_carlos.pecl3.client.LoginInfo;
-import com.mario_carlos.pecl3.client.LoginService;
+import com.mario_carlos.pecl3.client.ServerService;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
 
-class Server extends RemoteServiceServlet with LoginService {
+class ServerServiceImpl extends RemoteServiceServlet with ServerService {
   
   def login(requestUri:String):LoginInfo = {
     // TODO Auto-generated method stub

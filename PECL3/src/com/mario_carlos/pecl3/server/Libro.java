@@ -153,5 +153,11 @@ public class Libro implements Serializable {
 	public int getPrestados() {
 		return prestados;
 	}
+	public void prestar() {
+		prestados++;
+	}
+	public void devolver(){
+		prestados--;
+	}
 	
 }

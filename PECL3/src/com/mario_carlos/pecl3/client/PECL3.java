@@ -49,7 +49,7 @@ public class PECL3 implements EntryPoint {
 	  public void onModuleLoad() {
 		  //loadUI();
 	    // Check login status using login service.
-	    final LoginServiceAsync loginService = GWT.create(LoginService.class);
+	    final ServerServiceAsync loginService = GWT.create(ServerService.class);
 	    loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 	      public void onFailure(Throwable error) {
 	      }
@@ -80,7 +80,7 @@ public class PECL3 implements EntryPoint {
 		return null;
 	  }
 	  
-	  private void loadUI(final LoginServiceAsync loginService){
+	  private void loadUI(final ServerServiceAsync loginService){
 //		final ArrayList<Libro> libros = new ArrayList<Libro>();
 //		libros.add(new Libro("The Martian", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 //		libros.add(new Libro("Moon", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
@@ -523,7 +523,32 @@ public class PECL3 implements EntryPoint {
 		btnPrestarLibro.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String seleccion = selectionModel.getSelectedObject();
-				Window.alert("Préstamo de libro: "  + seleccion);
+				Libro libro = getLibro(seleccion, libros);
+				int prestados = libro.getPrestados();
+				if ((prestados+1) <= Integer.parseInt(libro.getCopias())) {
+					libro.prestar();
+					loginService.modificar(libro, new AsyncCallback<Libro>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Window.alert("Ups");
+						}
+
+						@Override
+						public void onSuccess(Libro result) {
+							// TODO Auto-generated method stub
+							if (result != null){
+								Window.alert("Libro prestado");
+							}else{
+								Window.alert("Fallo en el servidor al prestar libro");
+							}
+						}
+						
+					});
+				}else{
+					Window.alert("No se pudo prestar, no quedan ejemplares");
+				}
 			}
 		});
 		rootPanel.add(btnPrestarLibro, 66, 498);
@@ -533,7 +558,32 @@ public class PECL3 implements EntryPoint {
 		btnDevolverLibro.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				String seleccion = selectionModel.getSelectedObject();
-				Window.alert("Devolución de libro: "  + seleccion);
+				Libro libro = getLibro(seleccion, libros);
+				int prestados = libro.getPrestados();
+				if ((prestados-1) >= 0) {
+					libro.devolver();
+					loginService.modificar(libro, new AsyncCallback<Libro>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Window.alert("Ups");
+						}
+
+						@Override
+						public void onSuccess(Libro result) {
+							// TODO Auto-generated method stub
+							if (result != null){
+								Window.alert("Libro devuelto");
+							}else{
+								Window.alert("Fallo en el servidor al devolver libro");
+							}
+						}
+						
+					});
+				}else{
+					Window.alert("No se puede devolver más, ya estan todas las copias");
+				}
 			}
 		});
 		rootPanel.add(btnDevolverLibro, 66, 534);
@@ -550,7 +600,6 @@ public class PECL3 implements EntryPoint {
 			@Override
 			public void onSuccess(ArrayList<Libro> result) {
 				// TODO Auto-generated method stub
-				Window.alert(result.toString());
 				libros.addAll(result);
 				for (int i = 0; i < libros.size(); i++) {
 					libros_str.add(libros.get(i).getTitulo());
