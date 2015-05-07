@@ -8,6 +8,8 @@ import com.mario_carlos.pecl3.client.LoginInfo;
 import com.mario_carlos.pecl3.client.LoginService;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import scala.collection.JavaConversions._
+import scala.collection.mutable.ListBuffer
 
 class Server extends RemoteServiceServlet with LoginService {
   
@@ -47,17 +49,11 @@ class Server extends RemoteServiceServlet with LoginService {
   
   def getBooks():java.util.ArrayList[Libro] = {
     val pm = PMF.get().getPersistenceManager();
-    val query = pm.newQuery("select from Libro");
-    try {
-      val libros:java.util.ArrayList[Libro] = query.execute().asInstanceOf[java.util.ArrayList[Libro]];
-      query.closeAll()
-      return libros
-    } catch {
-      case t: Throwable =>{
-        t.printStackTrace() // TODO: handle error
-        query.closeAll()
-        return null
-      }      
-    }
+    val query = pm.newQuery(classOf[Libro]);
+    val result:java.util.List[Libro] = query.execute().asInstanceOf[java.util.List[Libro]]
+    val libros = pm.detachCopyAll(result).asInstanceOf[java.util.ArrayList[Libro]]
+    query.closeAll()
+    pm.close()
+    return libros
   }
 }

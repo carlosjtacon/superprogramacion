@@ -92,21 +92,7 @@ public class PECL3 implements EntryPoint {
 //		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
 		
 		final ArrayList<Libro> libros = new ArrayList<Libro>();
-		loginService.getBooks(new AsyncCallback<ArrayList<Libro>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Libro> result) {
-				// TODO Auto-generated method stub
-				libros.addAll(result);
-			}
-			
-		});
+		final ArrayList<String> libros_str = new ArrayList<String>();
 		
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		Label nick = new Label(loginInfo.getNickname());
@@ -470,13 +456,8 @@ public class PECL3 implements EntryPoint {
 		});
 		absolutePanelInsert.add(btnInsert, 268, 380);
 		
-		ArrayList<String> libros_str = new ArrayList<String>();
-		for (int i = 0; i < libros.size(); i++) {
-			libros_str.add(libros.get(i).getTitulo());
-		}
-		
 		TextCell textCell = new TextCell();
-		CellList<String> cellBookList = new CellList<String>(textCell);
+		final CellList<String> cellBookList = new CellList<String>(textCell);
 		cellBookList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
@@ -513,9 +494,6 @@ public class PECL3 implements EntryPoint {
 	      }
 	    });
 
-	    cellBookList.setRowCount(libros_str.size(), true);
-	    cellBookList.setRowData(0, libros_str);
-
 		rootPanel.add(cellBookList, 66, 50);
 		cellBookList.setSize("267px", "442px");
 
@@ -538,6 +516,29 @@ public class PECL3 implements EntryPoint {
 		});
 		rootPanel.add(btnDevolverLibro, 66, 534);
 		btnDevolverLibro.setSize("267px", "30px");
+		
+		loginService.getBooks(new AsyncCallback<ArrayList<Libro>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Libro> result) {
+				// TODO Auto-generated method stub
+				Window.alert(result.toString());
+				libros.addAll(result);
+				for (int i = 0; i < libros.size(); i++) {
+					libros_str.add(libros.get(i).getTitulo());
+				}
+				cellBookList.setRowCount(libros_str.size(), true);
+			    cellBookList.setRowData(0, libros_str);
+			}
+			
+		});
+		
 	}
 	
 }
