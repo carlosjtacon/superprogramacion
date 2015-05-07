@@ -2,13 +2,17 @@ package com.mario_carlos.pecl3.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -480,7 +484,27 @@ public class PECL3 implements EntryPoint {
 	    cellBookList.setRowData(0, libros_str);
 
 		rootPanel.add(cellBookList, 66, 50);
-		cellBookList.setSize("267px", "514px");
+		cellBookList.setSize("267px", "442px");
+
+		Button btnPrestarLibro = new Button("Prestar Libros");
+		btnPrestarLibro.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String seleccion = selectionModel.getSelectedObject();
+				Window.alert("Préstamo de libro: "  + seleccion);
+			}
+		});
+		rootPanel.add(btnPrestarLibro, 66, 498);
+		btnPrestarLibro.setSize("267px", "30px");
+		
+		Button btnDevolverLibro = new Button("Devolver Libro");
+		btnDevolverLibro.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String seleccion = selectionModel.getSelectedObject();
+				Window.alert("Devolución de libro: "  + seleccion);
+			}
+		});
+		rootPanel.add(btnDevolverLibro, 66, 534);
+		btnDevolverLibro.setSize("267px", "30px");
 	}
 	
 }
