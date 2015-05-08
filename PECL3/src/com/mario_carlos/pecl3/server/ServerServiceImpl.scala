@@ -14,7 +14,7 @@ import scala.collection.mutable.ListBuffer
 class ServerServiceImpl extends RemoteServiceServlet with ServerService {
   
   def login(requestUri:String):LoginInfo = {
-    // TODO Auto-generated method stub
+    //inicia sesión en el sistema
     val userService = UserServiceFactory.getUserService();
     val user = userService.getCurrentUser();
     val loginInfo = new LoginInfo();
@@ -32,7 +32,7 @@ class ServerServiceImpl extends RemoteServiceServlet with ServerService {
   }
   
   def insert(libro:Libro):Libro = {
-    // TODO Auto-generated method stub
+    //inserta un nuevo libro en el sistema de persistencia
     val pm = PMF.get().getPersistenceManager();
     try {
       pm.makePersistent(libro);
@@ -48,6 +48,7 @@ class ServerServiceImpl extends RemoteServiceServlet with ServerService {
   }
   
   def modificar(libro:Libro):Libro = {
+    //elimina el libro con isbn dado y añade el nuevo por el cuel se tiene que sustituir
     val pm = PMF.get.getPersistenceManager
     try{
       val l:Libro = pm.getObjectById(classOf[Libro], libro.getIsbn)
@@ -65,6 +66,7 @@ class ServerServiceImpl extends RemoteServiceServlet with ServerService {
   }
   
   def getBooks():java.util.ArrayList[Libro] = {
+    //recupera los libros persistentes y los devuelve como una lista
     val pm = PMF.get().getPersistenceManager();
     val query = pm.newQuery(classOf[Libro]);
     val result:java.util.List[Libro] = query.execute().asInstanceOf[java.util.List[Libro]]

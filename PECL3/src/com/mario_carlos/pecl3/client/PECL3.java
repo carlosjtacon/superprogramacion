@@ -47,7 +47,6 @@ public class PECL3 implements EntryPoint {
 	  private Anchor signOutLink = new Anchor("Sign Out");
 	  
 	  public void onModuleLoad() {
-		  //loadUI();
 	    // Check login status using login service.
 	    final ServerServiceAsync loginService = GWT.create(ServerService.class);
 	    loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
@@ -74,6 +73,7 @@ public class PECL3 implements EntryPoint {
 	  }
 	  
 	  private Libro getLibro(String titulo, ArrayList<Libro> libros) {
+		//devuelve un libro dado su título y el arraylist donde buscar
 		for (Libro libro : libros) {
 			if (libro.getTitulo().equals(titulo)) return libro;
 		}
@@ -81,16 +81,8 @@ public class PECL3 implements EntryPoint {
 	  }
 	  
 	  private void loadUI(final ServerServiceAsync loginService){
-//		final ArrayList<Libro> libros = new ArrayList<Libro>();
-//		libros.add(new Libro("The Martian", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("Moon", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("Submarine", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("The Double", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("True Detective", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("Game of Thrones", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("Star Wars", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-//		libros.add(new Libro("The Hobbit", "autor", "edicion", "res", "editor", "fecha_p", "pag", "isbn", "url", "materia", "portada", "copias"));
-		
+		//se carga la UI general de la biblioteca
+		  
 		final ArrayList<Libro> libros = new ArrayList<Libro>();
 		final ArrayList<String> libros_str = new ArrayList<String>();
 		
@@ -105,6 +97,7 @@ public class PECL3 implements EntryPoint {
 		rootPanel.add(tabPanel, 339, 50);
 		tabPanel.setSize("430px", "513px");
 
+		//Panel de consulta
 		AbsolutePanel absolutePanelView = new AbsolutePanel();
 		tabPanel.add(absolutePanelView, "Consultar", false);
 		absolutePanelView.setSize("418px", "469px");
@@ -153,54 +146,55 @@ public class PECL3 implements EntryPoint {
 		Label labelView_11 = new Label("Copias existentes");
 		absolutePanelView.add(labelView_11, 11, 318);
 		
-		final Label labelViewData_0 = new Label("datos demo");
+		final Label labelViewData_0 = new Label();
 		absolutePanelView.add(labelViewData_0, 183, 8);
 		labelViewData_0.setSize("157px", "8px");
 		
-		final Label labelViewData_1 = new Label("datos demo");
+		final Label labelViewData_1 = new Label();
 		absolutePanelView.add(labelViewData_1, 183, 32);
 		labelViewData_1.setSize("157px", "8px");
 		
-		final Label labelViewData_2 = new Label("datos demo");
+		final Label labelViewData_2 = new Label();
 		absolutePanelView.add(labelViewData_2, 183, 58);
 		labelViewData_2.setSize("157px", "8px");
 		
-		final Label labelViewData_3 = new Label("datos demo");
+		final Label labelViewData_3 = new Label();
 		absolutePanelView.add(labelViewData_3, 183, 82);
 		labelViewData_3.setSize("157px", "8px");
 		
-		final Label labelViewData_4 = new Label("datos demo");
+		final Label labelViewData_4 = new Label();
 		absolutePanelView.add(labelViewData_4, 183, 148);
 		labelViewData_4.setSize("157px", "8px");
 		
-		final Label labelViewData_5 = new Label("datos demo");
+		final Label labelViewData_5 = new Label();
 		absolutePanelView.add(labelViewData_5, 183, 174);
 		labelViewData_5.setSize("157px", "8px");
 		
-		final Label labelViewData_6 = new Label("datos demo");
+		final Label labelViewData_6 = new Label();
 		absolutePanelView.add(labelViewData_6, 183, 198);
 		labelViewData_6.setSize("157px", "8px");
 		
-		final Label labelViewData_7 = new Label("datos demo");
+		final Label labelViewData_7 = new Label();
 		absolutePanelView.add(labelViewData_7, 183, 222);
 		labelViewData_7.setSize("157px", "8px");
 		
-		final Label labelViewData_8 = new Label("datos demo");
+		final Label labelViewData_8 = new Label();
 		absolutePanelView.add(labelViewData_8, 183, 246);
 		labelViewData_8.setSize("157px", "8px");
 		
-		final Label labelViewData_9 = new Label("datos demo");
+		final Label labelViewData_9 = new Label();
 		absolutePanelView.add(labelViewData_9, 183, 270);
 		labelViewData_9.setSize("157px", "8px");
 		
-		final Label labelViewData_10 = new Label("datos demo");
+		final Label labelViewData_10 = new Label();
 		absolutePanelView.add(labelViewData_10, 183, 294);
 		labelViewData_10.setSize("157px", "8px");
 		
-		final Label labelViewData_11 = new Label("datos demo");
+		final Label labelViewData_11 = new Label();
 		absolutePanelView.add(labelViewData_11, 183, 318);
 		labelViewData_11.setSize("157px", "8px");
 		
+		//Panel de Edición
 		AbsolutePanel absolutePanelEdit = new AbsolutePanel();
 		tabPanel.add(absolutePanelEdit, "Editar", false);
 		absolutePanelEdit.setSize("418px", "469px");
@@ -298,6 +292,7 @@ public class PECL3 implements EntryPoint {
 		absolutePanelEdit.add(textBoxEdit_11, 183, 318);
 		textBoxEdit_11.setSize("157px", "8px");
 		
+		//Botón guardar, que se comunica con el servidor para escribir
 		Button btnEdit = new Button("Guardar");
 		btnEdit.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -320,7 +315,7 @@ public class PECL3 implements EntryPoint {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						Window.alert("Ups");
+						Window.alert(SERVER_ERROR);
 					}
 
 					@Override
@@ -335,11 +330,11 @@ public class PECL3 implements EntryPoint {
 					
 				});
 		        
-				Window.alert("Has editado los datos de un libro: " + libroEditado.toString());
 			}
 		});
 		absolutePanelEdit.add(btnEdit, 268, 380);
 		
+		//Panel de inserción
 		AbsolutePanel absolutePanelInsert = new AbsolutePanel();
 		tabPanel.add(absolutePanelInsert, "Insertar", false);
 		absolutePanelInsert.setSize("418px", "469px");
@@ -436,6 +431,7 @@ public class PECL3 implements EntryPoint {
 		absolutePanelInsert.add(textBoxInsert_11, 183, 318);
 		textBoxInsert_11.setSize("157px", "8px");
 		
+		//Botón para insertar nuevos libros en el sistema
 		Button btnInsert = new Button("Insertar");
 		btnInsert.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -458,7 +454,7 @@ public class PECL3 implements EntryPoint {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						Window.alert("Ups");
+						Window.alert(SERVER_ERROR);
 					}
 
 					@Override
@@ -473,11 +469,11 @@ public class PECL3 implements EntryPoint {
 					
 				});
 		        
-//				Window.alert("Has insertado un nuevo libro: " + nuevoLibro.toString());
 			}
 		});
 		absolutePanelInsert.add(btnInsert, 268, 380);
 		
+		//Creación de la lista lateral de libros
 		TextCell textCell = new TextCell();
 		final CellList<String> cellBookList = new CellList<String>(textCell);
 		cellBookList.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -519,6 +515,7 @@ public class PECL3 implements EntryPoint {
 		rootPanel.add(cellBookList, 66, 50);
 		cellBookList.setSize("267px", "442px");
 
+		//Prestar y devolver libro, se modificará el libro restando o sumando n. prestados
 		Button btnPrestarLibro = new Button("Prestar Libro");
 		btnPrestarLibro.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -532,7 +529,7 @@ public class PECL3 implements EntryPoint {
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
-							Window.alert("Ups");
+							Window.alert(SERVER_ERROR);
 						}
 
 						@Override
@@ -567,7 +564,7 @@ public class PECL3 implements EntryPoint {
 						@Override
 						public void onFailure(Throwable caught) {
 							// TODO Auto-generated method stub
-							Window.alert("Ups");
+							Window.alert(SERVER_ERROR);
 						}
 
 						@Override
@@ -589,12 +586,13 @@ public class PECL3 implements EntryPoint {
 		rootPanel.add(btnDevolverLibro, 66, 534);
 		btnDevolverLibro.setSize("267px", "30px");
 		
+		//Carga de la lista lateral de libros al acceder a la web
 		loginService.getBooks(new AsyncCallback<ArrayList<Libro>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+				Window.alert(SERVER_ERROR);
 			}
 
 			@Override

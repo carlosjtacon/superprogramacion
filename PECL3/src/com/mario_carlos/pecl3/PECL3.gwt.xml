@@ -20,7 +20,7 @@
   <!-- Other module inherits                                      -->
   <inherits name='com.mario_carlos.pecl3.Libro'/>
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='com.mario_carlos.pecl3.client.Mario'/>
+  <entry-point class='com.mario_carlos.pecl3.client.PECL3'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
